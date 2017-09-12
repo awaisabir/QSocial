@@ -1,0 +1,21 @@
+{
+  "name": "blog-server",
+  "version": "1.0.0",
+  "description": "Backend for my blog",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "server",
+    "node",
+    "blog",
+    "oauth",
+    "practice",
+    "passport",
+    "javascript",
+    "bcrypt"
+  ],
+  "author": "Muhammad Awais Qureshi",
+  "license": "ISC"
+}
