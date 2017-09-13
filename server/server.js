@@ -14,8 +14,11 @@ app.use(express.static('../client/build'))
 /** Middleware(s) */
 app.use(cors())
 app.use(bodyParser.json())
+
+/** Passport Config */
 app.use(passport.initialize())
 app.use(passport.session())
+require('./config/passport')(passport)
 
 
 /** Mongoose */
