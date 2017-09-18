@@ -4,8 +4,11 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import passport from 'passport'
-import jwt from 'express-jwt'
 import DBConfig from './config/db'
+
+import auth from './api/auth'
+import users from './api/users'
+import posts from './api/posts'
 
 const PORT = process.env.PORT || 4200
 const app = express()
@@ -20,6 +23,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passport')(passport)
 
+
+app.use('/auth', auth)
 
 /** Mongoose */
 mongoose.connect(DBConfig.address)
