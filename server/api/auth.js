@@ -31,7 +31,6 @@ router.post('/register', (req, res) => {
       })
     }
   })
-
 })
 
 /** Login Endpoint */
@@ -69,7 +68,5 @@ router.post('/login', (req, res) => {
     }
   })
 })
-
-/** Auth Endpoint */
 
 export default router
