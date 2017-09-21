@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { Container, Header, Message, Button, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../actions/index'
 
 class RegisterComponent extends Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -11,18 +14,26 @@ class RegisterComponent extends Component {
       password: '',
       firstName: '',
       lastName: '',
-      error: false,
+      validationError: false,
     }
 
     this.submitHandler = this.submitHandler.bind(this)
   }
 
   render() {
+    const {fetched, fetching, data, errors} = this.props
+
     return (
       <Container text>
-      
-      <Header as='h2'>Register</Header>
-        {this.state.error ? <Message negative>Please fill in all the fields correctly</Message> : null}
+        <Header as='h2'>Register</Header>
+        {this.state.validationError ? <Message negative>Please fill in all the fields correctly</Message> : null}
+
+        {fetched ?
+          data.data.success ? <Message positive>{data.data.message}</Message>
+          : <Message negative>{data.data.message}</Message>
+          : null
+        }
+
         <Form style={{marginTop: '50px'}} onSubmit={this.submitHandler}>
           <Form.Field>
             <label>Userame</label>
@@ -59,18 +70,22 @@ class RegisterComponent extends Component {
     let dummy = {username, password, email, firstName, lastName}
 
     if (!this.validateEmail(email)) {
-      this.setState({error: true}) 
+      this.setState({validationError: true}) 
       return
     } else
-      this.setState({error: false})
+      this.setState({validationError: false})
 
     for (let key in dummy) {
       if (dummy[key] === '') {
-        this.setState({error: true})
+        this.setState({validationError: true})
         break
       } else {
-        this.setState({error: false})
+        this.setState({validationError: false})
       }
+    }
+
+    if (!this.state.validationError) {
+      this.props.register(username, password, email, firstName, lastName)
     }
   }
 
@@ -78,13 +93,15 @@ class RegisterComponent extends Component {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   }
-
+  
 }
 
 const mapStateToProps = state => {
-  let { authReducer } = state
+  let { registerationReducer } = state
 
-  return authReducer
+  return registerationReducer
 }
 
-export default connect(mapStateToProps)(RegisterComponent)
+const mapDispatchToProps = dispatch => bindActionCreators(Actions, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent)
