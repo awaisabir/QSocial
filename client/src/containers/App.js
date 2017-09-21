@@ -23,9 +23,9 @@ class App extends Component {
             </Menu>
 
             <div>
-              <Route exact path="/home" render={HomeComponent} />
-              <Route exact path="/login" render={LoginComponent} />
-              <Route exact path="/register" render={RegisterComponent} />
+              <Route exact path="/" component={HomeComponent} />
+              <Route exact path="/login" component={LoginComponent} />
+              <Route exact path="/register" component={RegisterComponent} />
             </div>
           </div>
         </Router>
