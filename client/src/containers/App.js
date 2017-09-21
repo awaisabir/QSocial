@@ -15,7 +15,7 @@ class App extends Component {
         <Router>
           <div>
             <Menu secondary>
-              <NavLink to="/"><Menu.Item name='Home'/></NavLink>
+              <NavLink to="/home"><Menu.Item name='Home'/></NavLink>
               <Menu.Menu position='right'>
                 <NavLink to="/register"><Menu.Item name='Register'/></NavLink>
                 <NavLink to="/login"><Menu.Item name='Login'/></NavLink>
@@ -23,10 +23,15 @@ class App extends Component {
             </Menu>
 
             <div>
-              <Route exact path="/" component={HomeComponent} />
+              <Route exact path="/home" component={HomeComponent} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/register" component={RegisterComponent} />
+
+              <Route exact path="/" render={() => (
+                  <Redirect to="/home"/>
+              )}/>
             </div>
+            
           </div>
         </Router>
       </div>
