@@ -15,7 +15,7 @@ class App extends Component {
         <Router>
           <div>
             <Menu secondary>
-              <NavLink to="/home"><Menu.Item name='Home'/></NavLink>
+              <NavLink to="/"><Menu.Item name='Home'/></NavLink>
               <Menu.Menu position='right'>
                 <NavLink to="/register"><Menu.Item name='Register'/></NavLink>
                 <NavLink to="/login"><Menu.Item name='Login'/></NavLink>
