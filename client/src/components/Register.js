@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Header, Message, Button, Form } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 
 class RegisterComponent extends Component {
   constructor(props) {
@@ -80,4 +81,10 @@ class RegisterComponent extends Component {
 
 }
 
-export default RegisterComponent
+const mapStateToProps = state => {
+  let { authReducer } = state
+
+  return authReducer
+}
+
+export default connect(mapStateToProps)(RegisterComponent)
