@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import authReducer from './auth'
+import registerationReducer from './register'
 
 const rootReducer = combineReducers({
-  authReducer
+  registerationReducer
 })
 
 export default rootReducer
