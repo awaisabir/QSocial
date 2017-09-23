@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Container, Header, Message, Button, Form } from 'semantic-ui-react'
+import { Container, Header, Message, Button, Form, Loader, Dimmer } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../actions/index'
 import '../styles/Register.css'
@@ -27,7 +28,8 @@ class RegisterComponent extends Component {
     return (
       <Container text>
         {this.state.validationError ? <Message negative>Please fill in all the fields correctly</Message> : null}
-
+        {errors.length > 0 ? <Message negative>Seems like our server is not responding ... Try again later!</Message> : null}
+        {fetching ? <Dimmer active><Loader/></Dimmer> : null}
         {fetched ?
           data.data.success ? <Message positive>{data.data.message}</Message>
           : <Message negative>{data.data.message}</Message>
@@ -36,7 +38,7 @@ class RegisterComponent extends Component {
         <Header as='h2'>Register</Header>
         <Form onSubmit={this.submitHandler}>
           <Form.Field>
-            <label>Userame</label>
+            <label>Username</label>
             <input type="text" onChange={(e) => {this.setState({username: e.target.value})}}/>
           </Form.Field>
           <Form.Field>
@@ -51,15 +53,18 @@ class RegisterComponent extends Component {
             <label>Password</label>
             <input type="password" onChange={(e) => {this.setState({password: e.target.value})}}/>
           </Form.Field>
-          <Form.Field>
-            <label>First Name</label>
-            <input type="text" onChange={(e) => {this.setState({firstName: e.target.value})}}/>
-          </Form.Field>
-          <Form.Field>
-            <label>Last Name</label>
-            <input type="text" onChange={(e) => {this.setState({lastName: e.target.value})}}/>
-          </Form.Field>
-          <Button type='submit'>Submit</Button>
+          <Form.Group>
+            <Form.Field>
+              <label>First Name</label>
+              <input type="text" onChange={(e) => {this.setState({firstName: e.target.value})}}/>
+            </Form.Field>
+            <Form.Field>
+              <label>Last Name</label>
+              <input type="text" onChange={(e) => {this.setState({lastName: e.target.value})}}/>
+            </Form.Field>
+          </Form.Group>
+          <Button type='submit' style={{marginTop: '15px'}}>Register</Button>
+          <p>Already have an account? <Link to="/login">Login</Link></p>
         </Form>
       </Container>
     )
@@ -67,7 +72,7 @@ class RegisterComponent extends Component {
 
   submitHandler() {
     const {username, password, email, firstName, lastName} = this.state
-    let dummy = {username, password, email, firstName, lastName}
+    let formFields = {username, password, email, firstName, lastName}
 
     if (!this.validateEmail(email)) {
       this.setState({validationError: true}) 
@@ -75,8 +80,8 @@ class RegisterComponent extends Component {
     } else
       this.setState({validationError: false})
 
-    for (let key in dummy) {
-      if (dummy[key] === '') {
+    for (let key in formFields) {
+      if (formFields[key] === '') {
         this.setState({validationError: true})
         break
       } else {
