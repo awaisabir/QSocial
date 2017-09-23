@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const register = (username, password, email, firstName, lastName) => {
   return {
-    type: 'REGISTERATION',
+    type: 'REGISTRATION',
     payload: axios.post('http://localhost:4200/auth/register', {username, password, email, firstName, lastName})
   }
 }

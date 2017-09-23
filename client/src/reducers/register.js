@@ -7,13 +7,13 @@ const initialState = {
 
 export default (state=initialState, action) => {
   switch (action.type) {
-    case 'REGISTERATION_FULFILLED' :
+    case 'REGISTRATION_FULFILLED' :
       return { ...state, fetched: true, fetching: false, data: { ...action.payload }}
     
-    case 'REGISTERATION_REJECTED' :
+    case 'REGISTRATION_REJECTED' :
       return { ...state, fetched: false, fetching: false, errors: [...action.payload]}
 
-    case 'REGISTERATION_PENDING' :
+    case 'REGISTRATION_PENDING' :
       return { ...state, fetching: true, fetched: false}
 
     default:

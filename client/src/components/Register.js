@@ -3,6 +3,7 @@ import { Container, Header, Message, Button, Form } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../actions/index'
+import '../styles/Register.css'
 
 class RegisterComponent extends Component {
 
@@ -25,7 +26,6 @@ class RegisterComponent extends Component {
 
     return (
       <Container text>
-        <Header as='h2'>Register</Header>
         {this.state.validationError ? <Message negative>Please fill in all the fields correctly</Message> : null}
 
         {fetched ?
@@ -33,8 +33,8 @@ class RegisterComponent extends Component {
           : <Message negative>{data.data.message}</Message>
           : null
         }
-
-        <Form style={{marginTop: '50px'}} onSubmit={this.submitHandler}>
+        <Header as='h2'>Register</Header>
+        <Form onSubmit={this.submitHandler}>
           <Form.Field>
             <label>Userame</label>
             <input type="text" onChange={(e) => {this.setState({username: e.target.value})}}/>
@@ -97,9 +97,9 @@ class RegisterComponent extends Component {
 }
 
 const mapStateToProps = state => {
-  let { registerationReducer } = state
+  let { registrationReducer } = state
 
-  return registerationReducer
+  return registrationReducer
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(Actions, dispatch)
