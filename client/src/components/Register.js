@@ -3,11 +3,10 @@ import { Container, Header, Message, Button, Form, Loader, Dimmer } from 'semant
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
-import * as Actions from '../actions/index'
+import { register } from '../actions/index'
 import '../styles/Register.css'
 
 class RegisterComponent extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -17,6 +16,7 @@ class RegisterComponent extends Component {
       firstName: '',
       lastName: '',
       validationError: false,
+      componentRendered: true,
     }
 
     this.submitHandler = this.submitHandler.bind(this)
@@ -30,7 +30,7 @@ class RegisterComponent extends Component {
         {this.state.validationError ? <Message negative>Please fill in all the fields correctly</Message> : null}
         {errors.length > 0 ? <Message negative>Seems like our server is not responding ... Try again later!</Message> : null}
         {fetching ? <Dimmer active><Loader/></Dimmer> : null}
-        {fetched ?
+        {fetched && !this.state.componentRendered ?
           data.data.success ? <Message positive>{data.data.message}</Message>
           : <Message negative>{data.data.message}</Message>
           : null
@@ -90,6 +90,7 @@ class RegisterComponent extends Component {
     }
 
     if (!this.state.validationError) {
+      this.setState({componentRendered: false})
       this.props.register(username, password, email, firstName, lastName)
     }
   }
@@ -107,6 +108,6 @@ const mapStateToProps = state => {
   return registrationReducer
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(Actions, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({register}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent)
