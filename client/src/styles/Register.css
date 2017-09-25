@@ -1,7 +1,7 @@
 .ui.message {
   opacity: 1;
-  -webkit-animation-duration: 3s;
-  animation-duration: 3s;
+  -webkit-animation-duration: 4.5s;
+  animation-duration: 4.5s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   -webkit-animation-name: fadeOut;
@@ -10,5 +10,5 @@
 
 @keyframes fadeOut {
   0% {opacity: 1}
-  100% {opacity: 0; display:none !important;}
+  100% {opacity: 0}
 }
