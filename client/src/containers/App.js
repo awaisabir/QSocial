@@ -5,6 +5,7 @@ import { Menu } from 'semantic-ui-react'
 import LoginComponent from '../components/Login'
 import RegisterComponent from '../components/Register'
 import HomeComponent from '../components/Home'
+import ProfileComponent from '../components/Profile'
 import'../styles/App.css';
 
 class App extends Component {
@@ -26,7 +27,7 @@ class App extends Component {
               <Route exact path="/home" component={HomeComponent} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/register" component={RegisterComponent} />
-
+              <Route exact path="/profile" component={ProfileComponent} />
               <Route exact path="/" render={() => (
                   <Redirect to="/home"/>
               )}/>
