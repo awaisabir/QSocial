@@ -13,3 +13,12 @@ export const login = (username, password) => {
     payload: axios.post('http://localhost:4200/auth/login', {username, password})
   }
 }
+
+export const logout = () => {
+  return {
+    type: 'LOGOUT',
+    payload: {
+      loggedOut: true
+    }
+  }
+}
