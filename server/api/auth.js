@@ -52,7 +52,7 @@ router.post('/login', (req, res) => {
         return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'})
           
           if (isMatch) {
-            const token = jwt.sign({user}, config.auth_secret, {expiresIn: '3h'})
+            const token = jwt.sign({user}, config.auth_secret, {expiresIn: 86400})
             
             res.json({
               success: true,
@@ -65,6 +65,19 @@ router.post('/login', (req, res) => {
             return res.json({success: false, message: 'Incorrect username/password'})
         }
       })
+    }
+  })
+})
+
+router.get('/authorize', (req, res) => {
+  let authToken = req.headers.authorization
+  console.log(authToken)
+  jwt.verify(authToken, config.auth_secret, (err, result) => {
+    if (err)
+      return res.json({success: false, err: err})
+    else {
+      
+      return res.json({succes: true, err: null})  
     }
   })
 })
