@@ -29,7 +29,7 @@ class RegisterComponent extends Component {
       <Container text>
         {this.state.validationError ? <Message negative>Please fill in all the fields correctly</Message> : null}
         {errors.length > 0 ? <Message negative>Seems like our server is not responding ... Try again later!</Message> : null}
-        {fetching ? <Dimmer active><Loader/></Dimmer> : null}
+        {fetching ? <Dimmer inverted active><Loader><span style={{color: '#0e51d6'}}>Saving your details ... </span></Loader></Dimmer> : null}
         {fetched && !this.state.componentRendered ?
           data.data.success ? <Message positive>{data.data.message}</Message>
           : <Message negative>{data.data.message}</Message>
@@ -39,7 +39,7 @@ class RegisterComponent extends Component {
         <Form onSubmit={this.submitHandler}>
           <Form.Field>
             <label>Username</label>
-            <input type="text" onChange={(e) => {this.setState({username: e.target.value})}}/>
+            <input type="text" onChange={(e) => {this.setState({username: e.target.value})}} value={this.state.username}/>
           </Form.Field>
           <Form.Field>
               <label>Email</label>
@@ -47,20 +47,21 @@ class RegisterComponent extends Component {
                 placeholder='example@example.com' 
                 type="email" 
                 onChange={(e) => {this.setState({email: e.target.value})}}
+                value={this.state.email}
               />
           </Form.Field>
           <Form.Field>
             <label>Password</label>
-            <input type="password" onChange={(e) => {this.setState({password: e.target.value})}}/>
+            <input type="password" onChange={(e) => {this.setState({password: e.target.value})}} value={this.state.password}/>
           </Form.Field>
           <Form.Group>
             <Form.Field>
               <label>First Name</label>
-              <input type="text" onChange={(e) => {this.setState({firstName: e.target.value})}}/>
+              <input type="text" onChange={(e) => {this.setState({firstName: e.target.value})}} value={this.state.firstName}/>
             </Form.Field>
             <Form.Field>
               <label>Last Name</label>
-              <input type="text" onChange={(e) => {this.setState({lastName: e.target.value})}}/>
+              <input type="text" onChange={(e) => {this.setState({lastName: e.target.value})}} value={this.state.lastName}/>
             </Form.Field>
           </Form.Group>
           <Button type='submit' style={{marginTop: '15px'}}>Register</Button>
@@ -90,7 +91,7 @@ class RegisterComponent extends Component {
     }
 
     if (!this.state.validationError) {
-      this.setState({componentRendered: false})
+      this.setState({componentRendered: false, username: '', password: '', firstName: '', lastName: '', email: ''})
       this.props.register(username, password, email, firstName, lastName)
     }
   }
