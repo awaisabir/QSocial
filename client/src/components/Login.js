@@ -17,11 +17,20 @@ class LoginComponent extends Component {
   }
 
   render() {
-    let { fetching, fetched, errors, data } = this.props
+    let { fetching, fetched, data } = this.props
+    
+    if (fetched) {
+      let token = localStorage.getItem('token')
+      if (!token && data.data.token !== undefined) {
+        localStorage.setItem('token', data.data.token)
+      } else {
+        
+      }
+    }
+
     return (
       <Container text>
-        {/* {this.state.validationError ? <Message negative>Please fill in all the fields correctly</Message> : null} */}
-        {fetching ? <Dimmer active><Loader/></Dimmer> : null}
+        {fetching ? <Dimmer active inverted><Loader><span style={{color: '#0e51d6'}}>Loading Profile ... </span></Loader></Dimmer> : null}
         {fetched && !this.state.componentRendered ?
           data.data.success ? <Redirect to="/profile" />
           : <Message negative>{data.data.message}</Message>
@@ -31,11 +40,11 @@ class LoginComponent extends Component {
         <Form onSubmit={this.submitHandler}>
           <Form.Field>
             <label>Username</label>
-            <input type="text" onChange={e => {this.setState({username: e.target.value})}} />
+            <input type="text" onChange={e => {this.setState({username: e.target.value})}} value={this.state.username}/>
           </Form.Field>
           <Form.Field>
             <label>Password</label>
-            <input type="password" onChange={e => {this.setState({password: e.target.value})}} />
+            <input type="password" onChange={e => {this.setState({password: e.target.value})}} value={this.state.password}/>
           </Form.Field>
           <Button type='submit'>Login</Button>
           <p>Don't have an account? <Link to="/register">Register</Link></p>
@@ -58,7 +67,7 @@ class LoginComponent extends Component {
     }
 
     if (!this.state.validationError) {
-      this.setState({componentRendered: false})
+      this.setState({componentRendered: false, username: '', password: ''})
       this.props.login(username, password)
     }
   }
