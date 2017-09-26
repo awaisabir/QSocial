@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { logout } from '../actions/index'
 
 import LoginComponent from '../components/Login'
 import RegisterComponent from '../components/Register'
@@ -9,17 +12,37 @@ import ProfileComponent from '../components/Profile'
 import'../styles/App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.logout = this.logout.bind(this)
+  }
 
   render() {
+    console.log(this.props)
+    let { fetched, data, success, loggedOut } = this.props
     return (
       <div>
         <Router>
           <div>
             <Menu secondary>
-              <NavLink to="/home"><Menu.Item name='Home'/></NavLink>
+              <Menu.Item><NavLink to="/home"><Menu.Item name='Home'/></NavLink></Menu.Item>
               <Menu.Menu position='right'>
-                <NavLink to="/register"><Menu.Item name='Register'/></NavLink>
-                <NavLink to="/login"><Menu.Item name='Login'/></NavLink>
+                {fetched && success ? 
+                  null : 
+                  <Menu.Item><NavLink to="/register"><Menu.Item name='Register'/></NavLink></Menu.Item>
+                }
+                {fetched && success ? 
+                  null : 
+                  <Menu.Item><NavLink to="/login"><Menu.Item name='Login'/></NavLink></Menu.Item>
+                }
+                {fetched && success ? 
+                  <Menu.Item><NavLink to="/profile"><Menu.Item name='Profile'/></NavLink></Menu.Item> 
+                  : null
+                }
+                {fetched && success ? 
+                  <Menu.Item onClick={this.logout}>Logout</Menu.Item> 
+                  : null
+                }
               </Menu.Menu>
             </Menu>
 
@@ -38,6 +61,14 @@ class App extends Component {
       </div>
     )
   }
+
+  logout() {
+    localStorage.removeItem('token')
+    this.props.logout()
+  }
 }
 
-export default App;
+const mapStateToProps = ({authenticationReducer}) => authenticationReducer
+const mapDispatchToProps = dispatch => bindActionCreators({logout}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
