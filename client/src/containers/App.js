@@ -19,7 +19,7 @@ class App extends Component {
 
   render() {
     console.log(this.props)
-    let { fetched, data, success, loggedOut } = this.props
+    let { fetched, success } = this.props
     return (
       <div>
         <Router>

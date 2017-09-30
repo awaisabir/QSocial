@@ -4,10 +4,9 @@ import { Redirect } from 'react-router-dom'
 import decode from 'jwt-decode'
 
 class ProfileComponent extends Component {
-
-  render() {
+  componentWillMount() {
     let token = localStorage.getItem('token')
-
+    
     if (!token) {
       return <Redirect to="/login" />
     } else {
@@ -15,7 +14,9 @@ class ProfileComponent extends Component {
       if (exp < new Date().getTime() / 1000)
         return <Redirect to="/login" />
     }
+  }
 
+  render() {
     return (
       <Container>
         <Header as='h2'>This will be the Profile Component</Header>
