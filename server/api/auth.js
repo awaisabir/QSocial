@@ -52,7 +52,8 @@ router.post('/login', (req, res) => {
         return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'})
           
           if (isMatch) {
-            const token = jwt.sign({user}, config.auth_secret, {expiresIn: 86400})
+            let { firstName, lastName, username, id, email, createdAt } = user
+            const token = jwt.sign({id, firstName, lastName, username, email, createdAt}, config.auth_secret, {expiresIn: 86400})
             
             res.json({
               success: true,
