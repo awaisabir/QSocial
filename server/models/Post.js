@@ -7,8 +7,8 @@ const ObjectId = mongoose.SchemaTypes.ObjectId
 
 const PostSchema = new mongoose.Schema({
     createdBy: { type: ObjectId, ref: 'User', required: true },
-    dateCreated: {type: Date, default: Date.now(), required: true},
-    dateEdited: {type: Date, default: Date.now(), required: true},
+    createdAt: {type: Date, default: Date.now(), required: true},
+    editedAt: {type: Date, default: Date.now(), required: true},
     edited: {type: Boolean, default: false},
     likes: {type: Number, default: 0},
     dislikes: {type: Number, default: 0},
