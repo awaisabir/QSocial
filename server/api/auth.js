@@ -72,14 +72,12 @@ router.post('/login', (req, res) => {
 
 router.get('/authorize', (req, res) => {
   let authToken = req.headers.authorization
-  console.log(authToken)
+
   jwt.verify(authToken, config.auth_secret, (err, result) => {
     if (err)
       return res.json({success: false, err: err})
-    else {
-      
+
       return res.json({succes: true, err: null})  
-    }
   })
 })
 
