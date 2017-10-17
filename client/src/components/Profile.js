@@ -1,26 +1,29 @@
-import React, { Component } from 'react'
-import { Header, Container, Card, Icon, Image } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
-import decode from 'jwt-decode'
-import matthew from '../assets/matthew.png'
-import '../styles/Profile.css'
+import React, { Component } from 'react';
+import { Header, Container, Card, Icon, Image } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
+import decode from 'jwt-decode';
+import matthew from '../assets/matthew.png';
+import '../styles/Profile.css';
 
 class ProfileComponent extends Component {
   render() {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem('token');
 
     if (!token || token == 'undefined') {
-      return <Redirect to="/login" />
+      return <Redirect to="/login" />;
     } 
     
     else {
-      let { exp } = decode(token)
+      let { exp } = decode(token);
 
       if (exp < new Date().getTime() / 1000)
-        return <Redirect to="/login" />
+        return <Redirect to="/login" />;
         
       else {
-        let user = decode(token)
+        let nav = JSON.parse(localStorage.getItem('nav'));
+
+
+        let user = decode(token);
         return (
           <Container className="profile">
             <Card>
@@ -46,10 +49,10 @@ class ProfileComponent extends Component {
               </Card.Content> */}
             </Card>
           </Container>
-        )
+        );
       }
     }
-  }
-}
+  };
+};
 
-export default ProfileComponent
+export default ProfileComponent;

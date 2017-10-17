@@ -1,30 +1,28 @@
-import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
-import { Container, Header, Button, Form , Message, Dimmer, Loader } from 'semantic-ui-react'
-import { login } from '../actions/index'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { Container, Header, Button, Form , Message, Dimmer, Loader } from 'semantic-ui-react';
+import { login } from '../actions/index';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class LoginComponent extends Component {
   componentWillMount() {
-    this.setState({componentRendered: true})
+    this.setState({componentRendered: true});
   }
 
   constructor(props) {
-    super(props)
-    this.state = {username: '', password: '', validationError: false, componentRendered: true}
-    this.submitHandler = this.submitHandler.bind(this)
+    super(props);
+    this.state = {username: '', password: '', validationError: false, componentRendered: true};
+    this.submitHandler = this.submitHandler.bind(this);
   }
 
   render() {
-    let { fetching, fetched, success, token, message } = this.props
+    let { fetching, fetched, success, token, message } = this.props;
     
     if (fetched) {
-      let storedToken = localStorage.getItem('token')
+      let storedToken = localStorage.getItem('token');
       if ((!storedToken && storedToken !== undefined) || storedToken == 'undefined') {
-        localStorage.setItem('token', token)
-      } else {
-        
+        localStorage.setItem('token', token);
       }
     }
 
@@ -50,30 +48,30 @@ class LoginComponent extends Component {
           <p>Don't have an account? <Link to="/register">Register</Link></p>
         </Form>
       </Container>
-    )
-  }
+    );
+  };
 
   submitHandler() {
-    const { username, password } = this.state
-    let formFields = {username, password}
+    const { username, password } = this.state;
+    let formFields = {username, password};
 
     for (let key in formFields) {
       if (formFields[key] === '') {
-        this.setState({validationError: true})
-        break
+        this.setState({validationError: true});
+        break;
       } else {
-        this.setState({validationError: false})
+        this.setState({validationError: false});
       }
-    }
+    };
 
     if (!this.state.validationError) {
-      this.setState({componentRendered: false, username: '', password: ''})
-      this.props.login(username, password)
+      this.setState({componentRendered: false, username: '', password: ''});
+      this.props.login(username, password);
     }
   }
 }
 
-const maptStateToProps = ({authenticationReducer}) => authenticationReducer
-const mapDispatchToProps = dispatch => bindActionCreators({login}, dispatch)
+const maptStateToProps = ({authenticationReducer}) => authenticationReducer;
+const mapDispatchToProps = dispatch => bindActionCreators({login}, dispatch);
 
-export default connect(maptStateToProps, mapDispatchToProps)(LoginComponent)
+export default connect(maptStateToProps, mapDispatchToProps)(LoginComponent);
