@@ -17,12 +17,12 @@ class LoginComponent extends Component {
   }
 
   render() {
-    let { fetching, fetched, data } = this.props
+    let { fetching, fetched, success, token, message } = this.props
     
     if (fetched) {
-      let token = localStorage.getItem('token')
-      if (!token && data.data.token !== undefined) {
-        localStorage.setItem('token', data.data.token)
+      let storedToken = localStorage.getItem('token')
+      if ((!storedToken && storedToken !== undefined) || storedToken == 'undefined') {
+        localStorage.setItem('token', token)
       } else {
         
       }
@@ -32,8 +32,8 @@ class LoginComponent extends Component {
       <Container text>
         {fetching ? <Dimmer active inverted><Loader><span style={{color: '#0e51d6'}}>Loading Profile ... </span></Loader></Dimmer> : null}
         {fetched && !this.state.componentRendered ?
-          data.data.success ? <Redirect to="/profile" />
-          : <Message negative>{data.data.message}</Message>
+          success ? <Redirect to="/profile" />
+          : <Message negative>{message}</Message>
           : null
         }
         <Header as='h2'>Login</Header>
