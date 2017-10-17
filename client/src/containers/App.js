@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-dom'
-import { Menu } from 'semantic-ui-react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { logout } from '../actions/index'
+import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { logout } from '../actions/index';
 
-import LoginComponent from '../components/Login'
-import RegisterComponent from '../components/Register'
-import HomeComponent from '../components/Home'
-import ProfileComponent from '../components/Profile'
+import LoginComponent from '../components/Login';
+import RegisterComponent from '../components/Register';
+import HomeComponent from '../components/Home';
+import ProfileComponent from '../components/Profile';
 import'../styles/App.css';
 
 class App extends Component {
   constructor(props) {
-    super(props)
-    this.logout = this.logout.bind(this)
+    super(props);
+    this.logout = this.logout.bind(this);
   }
 
   render() {
-    let { fetched, success } = this.props
+    let { fetched, success } = this.props;
     return (
       <div>
         <Router>
@@ -57,16 +57,16 @@ class App extends Component {
           </div>
         </Router>
       </div>
-    )
-  }
+    );
+  };
 
   logout() {
-    localStorage.removeItem('token')
-    this.props.logout()
-  }
+    localStorage.removeItem('token');
+    this.props.logout();
+  };
 }
 
-const mapStateToProps = ({authenticationReducer}) => authenticationReducer
-const mapDispatchToProps = dispatch => bindActionCreators({logout}, dispatch)
+const mapStateToProps = ({authenticationReducer}) => authenticationReducer;
+const mapDispatchToProps = dispatch => bindActionCreators({logout}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App);

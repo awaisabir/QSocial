@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import { Container, Header, Message, Button, Form, Loader, Dimmer } from 'semantic-ui-react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
-import { register } from '../actions/index'
-import '../styles/Register.css'
+import React, { Component } from 'react';
+import { Container, Header, Message, Button, Form, Loader, Dimmer } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { register } from '../actions/index';
+import '../styles/Register.css';
 
 class RegisterComponent extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       username: '',
       email: '',
@@ -17,13 +17,13 @@ class RegisterComponent extends Component {
       lastName: '',
       validationError: false,
       componentRendered: true,
-    }
+    };
 
-    this.submitHandler = this.submitHandler.bind(this)
+    this.submitHandler = this.submitHandler.bind(this);
   }
 
   render() {
-    const {fetched, fetching, data, errors} = this.props
+    const {fetched, fetching, data, errors} = this.props;
 
     return (
       <Container text>
@@ -68,47 +68,46 @@ class RegisterComponent extends Component {
           <p>Already have an account? <Link to="/login">Login</Link></p>
         </Form>
       </Container>
-    )
-  }
+    );
+  };
 
   submitHandler() {
-    const {username, password, email, firstName, lastName} = this.state
-    let formFields = {username, password, email, firstName, lastName}
+    const {username, password, email, firstName, lastName} = this.state;
+    let formFields = {username, password, email, firstName, lastName};
 
     if (!this.validateEmail(email)) {
-      this.setState({validationError: true}) 
-      return
+      this.setState({validationError: true});
+      return;
     } else
-      this.setState({validationError: false})
+      this.setState({validationError: false});
 
     for (let key in formFields) {
       if (formFields[key] === '') {
-        this.setState({validationError: true})
-        break
+        this.setState({validationError: true});
+        break;
       } else {
-        this.setState({validationError: false})
+        this.setState({validationError: false});
       }
     }
 
     if (!this.state.validationError) {
-      this.setState({componentRendered: false, username: '', password: '', firstName: '', lastName: '', email: ''})
-      this.props.register(username, password, email, firstName, lastName)
+      this.setState({componentRendered: false, username: '', password: '', firstName: '', lastName: '', email: ''});
+      this.props.register(username, password, email, firstName, lastName);
     }
   }
 
   validateEmail(email) {
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return re.test(email)
-  }
-  
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
 }
 
 const mapStateToProps = state => {
-  let { registrationReducer } = state
+  let { registrationReducer } = state;
 
-  return registrationReducer
+  return registrationReducer;
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({register}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({register}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);

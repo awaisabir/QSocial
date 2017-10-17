@@ -1,8 +1,8 @@
 // Posts Model
-import mongoose from 'mongoose'
-import User from './User'
-import Comment from './Comment'
-const ObjectId = mongoose.SchemaTypes.ObjectId
+import mongoose from 'mongoose';
+import User from './User';
+import Comment from './Comment';
+const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 
 const PostSchema = new mongoose.Schema({
@@ -18,6 +18,6 @@ const PostSchema = new mongoose.Schema({
     heading: {type: String, required: true},
     thumbnail: String,
     comments: [{type: ObjectId, ref: 'Comment'}]
-})
+});
 
-export default mongoose.model('Post', PostSchema)
+export default mongoose.model('Post', PostSchema);

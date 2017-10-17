@@ -4,7 +4,7 @@ const initalState = {
   success : false,
   message: '',
   token: '',
-  loggedOut: true,
+  loggedIn: false,
   errors  : {},
 }
 
@@ -17,7 +17,7 @@ export default (state=initalState, {type, payload}) => {
         success: payload.data.success,
         message: payload.data.message,
         token: payload.data.token,
-        loggedOut: false,
+        loggedIn: true,
       }
     case 'AUTHENTICATION_PENDING':
       return {
