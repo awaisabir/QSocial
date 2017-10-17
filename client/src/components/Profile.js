@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Container, Card, Icon, Image } from 'semantic-ui-react';
+import { Container, Card, Image } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import decode from 'jwt-decode';
 import matthew from '../assets/matthew.png';
@@ -12,17 +12,12 @@ class ProfileComponent extends Component {
     if (!token || token == 'undefined') {
       return <Redirect to="/login" />;
     } 
-    
     else {
       let { exp } = decode(token);
 
       if (exp < new Date().getTime() / 1000)
         return <Redirect to="/login" />;
-        
       else {
-        let nav = JSON.parse(localStorage.getItem('nav'));
-
-
         let user = decode(token);
         return (
           <Container className="profile">
