@@ -18,7 +18,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props)
     let { fetched, success } = this.props
     return (
       <div>
@@ -55,7 +54,6 @@ class App extends Component {
                   <Redirect to="/home"/>
               )}/>
             </div>
-            
           </div>
         </Router>
       </div>

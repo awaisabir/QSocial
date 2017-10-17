@@ -11,12 +11,15 @@ class ProfileComponent extends Component {
 
     if (!token) {
       return <Redirect to="/login" />
-    } else {
+    } 
+    
+    else {
       let { exp } = decode(token)
+
       if (exp < new Date().getTime() / 1000)
         return <Redirect to="/login" />
+        
       else {
-        console.log(decode(token))
         let user = decode(token)
         return (
           <Container className="profile">

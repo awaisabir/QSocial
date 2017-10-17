@@ -25,6 +25,7 @@ require('./config/passport')(passport)
 
 
 app.use('/auth', auth)
+app.use('/users', users)
 
 /** Mongoose */
 mongoose.connect(DBConfig.address)
@@ -39,7 +40,7 @@ mongoose.connection.on('connected', () => {
 
 
 app.get('*', (req, res) => {
-    res.sendFile('/index.html')
+    res.send('404')
 })
 
 
