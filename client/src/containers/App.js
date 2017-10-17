@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout } from '../actions/index';
 
+import NavbarComponent from '../components/Navbar';
 import LoginComponent from '../components/Login';
 import RegisterComponent from '../components/Register';
 import HomeComponent from '../components/Home';
@@ -19,32 +19,13 @@ class App extends Component {
 
   render() {
     let { fetched, success } = this.props;
+    let nav = JSON.parse(localStorage.getItem('nav'));
+
     return (
       <div>
         <Router>
           <div>
-            <Menu secondary>
-              <Menu.Item><NavLink to="/home"><Menu.Item name='Home'/></NavLink></Menu.Item>
-              <Menu.Menu position='right'>
-                {fetched && success ? 
-                  null : 
-                  <Menu.Item><NavLink to="/register"><Menu.Item name='Register'/></NavLink></Menu.Item>
-                }
-                {fetched && success ? 
-                  null : 
-                  <Menu.Item><NavLink to="/login"><Menu.Item name='Login'/></NavLink></Menu.Item>
-                }
-                {fetched && success ? 
-                  <Menu.Item><NavLink to="/profile"><Menu.Item name='Profile'/></NavLink></Menu.Item> 
-                  : null
-                }
-                {fetched && success ? 
-                  <Menu.Item onClick={this.logout}>Logout</Menu.Item> 
-                  : null
-                }
-              </Menu.Menu>
-            </Menu>
-
+            <NavbarComponent fetched={fetched} success={success} navStatus={nav} logout={this.logout}/>
             <div>
               <Route exact path="/home" component={HomeComponent} />
               <Route exact path="/login" component={LoginComponent} />
@@ -62,6 +43,7 @@ class App extends Component {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('nav')
     this.props.logout();
   };
 }
