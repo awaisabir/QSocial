@@ -5,13 +5,13 @@ const initialState = {
   errors: [],
 };
 
-export default (state=initialState, action) => {
-  switch (action.type) {
+export default (state=initialState, {type, payload}) => {
+  switch (type) {
     case 'REGISTRATION_FULFILLED' :
-      return { ...state, fetched: true, fetching: false, data: { ...action.payload }};
+      return { ...state, fetched: true, fetching: false, data: { ...payload }};
     
     case 'REGISTRATION_REJECTED' :
-      return { ...state, fetched: false, fetching: false, errors: [...action.payload]};
+      return { ...state, fetched: false, fetching: false, errors: [...payload]};
 
     case 'REGISTRATION_PENDING' :
       return { ...state, fetching: true, fetched: false};
