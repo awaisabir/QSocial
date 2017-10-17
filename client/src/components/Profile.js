@@ -9,7 +9,7 @@ class ProfileComponent extends Component {
   render() {
     let token = localStorage.getItem('token')
 
-    if (!token) {
+    if (!token || token == 'undefined') {
       return <Redirect to="/login" />
     } 
     
