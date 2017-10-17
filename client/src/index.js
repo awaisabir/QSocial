@@ -16,9 +16,7 @@ const createStoreWithMiddleware = applyMiddleware(createLogger(), promise())(cre
 const store = createStoreWithMiddleware(reducers, persistedState);
 
 store.subscribe(() => {
-  saveState({
-    navigation: store.getState().authenticationReducer.loggedIn
-  });
+  saveState({authenticationReducer: store.getState().authenticationReducer});
 });
 
 ReactDOM.render(
