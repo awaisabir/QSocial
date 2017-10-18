@@ -15,17 +15,21 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.logout = this.logout.bind(this);
+    this.state = {logoutSelected: false};
   }
 
   render() {
     let { fetched, success } = this.props;
-    let nav = JSON.parse(localStorage.getItem('nav'));
+
+    if (this.state.loggedOut) {
+      <Redirect to="/login" />
+    }
 
     return (
       <div>
         <Router>
           <div>
-            <NavbarComponent fetched={fetched} success={success} navStatus={nav} logout={this.logout}/>
+            <NavbarComponent fetched={fetched} success={success} logout={this.logout} />
             <div>
               <Route exact path="/home" component={HomeComponent} />
               <Route exact path="/login" component={LoginComponent} />
@@ -43,8 +47,8 @@ class App extends Component {
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('nav')
     this.props.logout();
+    this.setState({logoutSelected: true});
   };
 }
 

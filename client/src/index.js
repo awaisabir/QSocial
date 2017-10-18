@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { saveState, loadState } from './utils/persist';
 import { createLogger } from 'redux-logger';
 import promise from 'redux-promise-middleware';
 
@@ -11,13 +10,8 @@ import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 
 import reducers from './reducers/index';
-const persistedState = loadState();
 const createStoreWithMiddleware = applyMiddleware(createLogger(), promise())(createStore);
-const store = createStoreWithMiddleware(reducers, persistedState);
-
-store.subscribe(() => {
-  saveState({authenticationReducer: store.getState().authenticationReducer});
-});
+const store = createStoreWithMiddleware(reducers);
 
 ReactDOM.render(
     <Provider store={store}>
