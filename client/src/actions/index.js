@@ -14,6 +14,13 @@ export const login = (username, password) => {
   };
 };
 
+export const tokenValidity = token => {
+  return {
+    type: 'TOKEN_VALIDITY',
+    payload: axios.get('http://localhost:4200/auth/authorize', {headers: {Authorization: token}})
+  };
+};
+
 export const logout = () => {
   return {
     type: 'LOGOUT',

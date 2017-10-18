@@ -4,6 +4,7 @@ const initalState = {
   success : false,
   message: '',
   token: '',
+  isTokenValid: false,
   loggedIn: false,
   errors  : {},
 }
@@ -27,6 +28,10 @@ export default (state=initalState, {type, payload}) => {
     return {
       ...state, fetched: false, fetching: false, errors: {...payload}
     }
+    case 'TOKEN_VALIDITY_FULFILLED':
+      return {
+        ...state, isTokenValid: payload.data.success,
+      }
     case 'LOGOUT':
       return {
         ...initalState

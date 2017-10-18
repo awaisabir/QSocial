@@ -71,13 +71,13 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/authorize', (req, res) => {
-  let authToken = req.headers.authorization;
+  let authToken = req.headers.authorization.substring(7);
 
   jwt.verify(authToken, config.auth_secret, (err, result) => {
     if (err)
-      return res.json({success: false, err: err});
+      return res.json({success: false, message: err});
 
-      return res.json({succes: true, err: null});
+      return res.json({succes: true, message: null});
   });
 });
 
