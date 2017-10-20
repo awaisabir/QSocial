@@ -3,7 +3,7 @@ import { Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 
-export default ({fetched, success, logout}) => {
+export default ({logout}) => {
   let token = localStorage.getItem('token');
 
   return (

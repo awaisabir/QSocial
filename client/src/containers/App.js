@@ -8,10 +8,14 @@ import NavbarComponent from '../components/Navbar';
 import LoginComponent from '../components/Login';
 import RegisterComponent from '../components/Register';
 import HomeComponent from '../components/Home';
-import ProfileComponent from '../components/Profile';
+import ProfileContainer from '../containers/ProfileContainer';
 import'../styles/App.css';
 
 class App extends Component {
+  componentDidUpdate() {
+    // check token and pass props to navbar
+  }
+
   constructor(props) {
     super(props);
     this.logout = this.logout.bind(this);
@@ -29,12 +33,12 @@ class App extends Component {
       <div>
         <Router>
           <div>
-            <NavbarComponent fetched={fetched} success={success} logout={this.logout} />
+            <NavbarComponent logout={this.logout} />
             <div>
               <Route exact path="/home" component={HomeComponent} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/register" component={RegisterComponent} />
-              <Route exact path="/profile" component={ProfileComponent} />
+              <Route exact path="/profile" component={ProfileContainer} />
               <Route exact path="/" render={() => (
                   <Redirect to="/home"/>
               )}/>
