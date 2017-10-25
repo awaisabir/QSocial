@@ -2,22 +2,17 @@ import React, { Component } from 'react';
 import { Container, Grid, Header } from 'semantic-ui-react';
 import ProfileComponent from '../components/user/Profile';
 import { Redirect } from 'react-router-dom';
-
 import decode from 'jwt-decode';
-import matthew from '../assets/matthew.png';
-import '../styles/Profile.css';
-class ProfileContainer extends Component {
-  constructor(props) {
-    super(props);
-  };
 
+import '../styles/Profile.css';
+
+class ProfileContainer extends Component {
   render() {
     let token = localStorage.getItem('token');
 
     if (!token || token == 'undefined') {
       return <Redirect to="/login" />;
-    } 
-    else {
+    } else {
       try {
         let { exp } = decode(token);
   
