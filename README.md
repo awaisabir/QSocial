@@ -17,7 +17,7 @@ Tech being used are:
 
 --------
 
-## Current Status :nuts_and_bolts: :zap: :sun:
+## Current Status :nut_and_bolt: :zap: :hammer:
 
 ### Backend
 
