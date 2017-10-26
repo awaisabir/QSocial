@@ -17,9 +17,8 @@ router.post('/register', (req, res) => {
     if (err)
       return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'});
       
-      if (user) {
+      if (user)
         return res.json({success: false, message: 'A user with that username/email already exists'});
-      }
       
       else {
         User.saveUser(newUser, (err, user) => {
@@ -27,7 +26,7 @@ router.post('/register', (req, res) => {
           return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'});
           
           else
-            return res.json({success: true, message: 'Successfully registered! You may now login ...'});
+            return res.json({success: true, message: 'Successfully registered! You may now login ...', user: newUser});
       });
     }
   });
@@ -40,10 +39,10 @@ router.post('/login', (req, res) => {
   User.getUserByUsername(username, (err, user) => {
     
     if (err)
-    return res.json({success: false, message: 'Incorrect username/password'});
+      return res.json({success: false, message: 'Incorrect username/password'});
     
     if (!user) 
-    return res.json({success: false, message: 'Incorrect username/password'});
+      return res.json({success: false, message: 'Incorrect username/password'});
     
     else {
       User.comparePasswords(password, user.password, (err, isMatch) => {
@@ -53,7 +52,7 @@ router.post('/login', (req, res) => {
           
           if (isMatch) {
             let { firstName, lastName, username, id, email, createdAt } = user;
-            const token = jwt.sign({id, firstName, lastName, username, email, createdAt}, config.auth_secret, {expiresIn: 86400});
+            const token = jwt.sign({id, firstName, lastName, username, email, createdAt}, config.auth_secret, {expiresIn: '1h'});
             
             res.json({
               success: true,
