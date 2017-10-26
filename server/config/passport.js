@@ -1,7 +1,7 @@
 // passport strategy configuration
 import passport from 'passport';
 import CONFIG from '../config/db';
-import User from '../models/User';
+import * as User from '../models/User';
 let JwtStrategy = require('passport-jwt').Strategy,
 ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -10,7 +10,7 @@ module.exports = passport => {
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
   opts.secretOrKey = CONFIG.auth_secret;
   passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-      User.findOne({id: jwt_payload.sub}, function(err, user) {
+      User.User.findOne({id: jwt_payload.sub}, function(err, user) {
           if (err) {
               return done(err, false);
           }
