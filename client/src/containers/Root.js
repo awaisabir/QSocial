@@ -11,9 +11,9 @@ export default class RootComponent extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/home" component={HomeComponent} />
-          <Route exact path="/login" component={LoginComponent} />
-          <Route exact path="/register" component={RegisterComponent} />
+          <Route path="/home" component={HomeComponent} />
+          <Route path="/login" component={LoginComponent} />
+          <Route path="/register" component={RegisterComponent} />
           <Route path="/profile" component={ProfileContainer} />
           <Route exact path="/" render={() => (
               <Redirect to="/home"/>
