@@ -56,3 +56,22 @@ export const createPost = (post, callback) => {
 export const deletePost = (id, callback) => {
   Post.findByIdAndRemove(id, callback);
 }
+
+export const updatePost = (id, updates, callback) => {
+  let query = {};
+  query.$set = {};
+  let { heading, content, category } = updates;
+
+  if (heading !== undefined) query.$set.heading = heading;
+  if (content !== undefined) query.$set.content = content;
+  if (category !== undefined) query.$set.category = category;
+  query.$set.edited = true;
+  query.$set.editedAt = Date.now();
+
+  Post.findByIdAndUpdate(id, query, {new: true}, (err, post) => {
+    if (err)
+      callback(err, null);
+
+    callback(null, post);
+  });
+}
