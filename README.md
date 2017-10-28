@@ -21,7 +21,7 @@ Tech being used are:
 
 ### Backend
 
-- Need to complete the Posts API, and paginate one of the endpoints.
+- Need to complete the Posts API.
 - Trying to create more endpoints for the API.
 
 ### Frontend
