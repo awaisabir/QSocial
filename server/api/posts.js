@@ -3,10 +3,14 @@ import passport from 'passport';
 import * as Post from '../models/Post';
 const router = express.Router();
 
+// get posts
 router.get('/', (req, res) => {
-  let { page } = req.query;
+  let { page, heading, order } = req.query;
 
-  Post.getPosts(page, (err, posts) => {
+  if (!page)
+    page = 1;
+
+  Post.getPosts(page, heading, order, (err, posts) => {
     if (err)
       return res.json({success: false, message: 'Something went wrong! Please try again later'});
     
@@ -14,11 +18,13 @@ router.get('/', (req, res) => {
       return res.json({success: false, message: 'There are no posts! ...'});
 
     else {
-      return res.json({success: true, posts});
+      let response = {posts, count: posts.length};
+      return res.json({success: true, response});
     }
-  });  
+  });
 });
 
+// get post by id
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -33,6 +39,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// create a new post
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
   const { createdBy, category, content, heading } = req.body;
 
@@ -48,7 +55,14 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
   });
 });
 
+// update a post
+router.patch('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+});
+
+// delete a post
+router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+});
+
 export default router;
-/** CREATE new post */
-/** Update a post */
-/** Delete a post */
