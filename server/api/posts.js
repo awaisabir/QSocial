@@ -18,8 +18,9 @@ router.get('/', (req, res) => {
       return res.json({success: false, message: 'There are no posts! ...'});
 
     else {
-      let response = {posts, count: posts.length};
-      return res.json({success: true, response});
+      let count = posts.length;
+      let response = {success: true, count, posts};
+      return res.json(response);
     }
   });
 });
@@ -57,7 +58,18 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
 // update a post
 router.patch('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+  let { id } = req.params; 
+  let { category, content, heading } = req.body;
 
+  Post.updatePost(id, {category, content, heading}, (err, post) => {
+    if (err)
+      return res.json({success: false, message: 'Something went wrong! Please try again later ...'});
+      
+    if (!post)
+      return res.json({success: false, message: 'Something went wrong! Please try again later ...'});
+
+    return res.json({success: true, post});
+  })
 });
 
 // delete a post
