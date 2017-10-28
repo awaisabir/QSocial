@@ -26,7 +26,7 @@ router.post('/register', (req, res) => {
           return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'});
           
           else
-            return res.json({success: true, message: 'Successfully registered! You may now login ...', user: newUser});
+            return res.json({success: true, message: 'Successfully registered! You may now login ...'});
       });
     }
   });
