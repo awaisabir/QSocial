@@ -34,7 +34,4 @@ router.get('/', (req, res) => {
 
 export default router;
 
-
-/** GET user by ID */
 /** GET all users (paginated) */
-/** Update stuff about a user */
