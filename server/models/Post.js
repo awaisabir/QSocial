@@ -21,29 +21,32 @@ const PostSchema = new mongoose.Schema({
 
 export const Post = mongoose.model('Post', PostSchema);
 
-export const getPosts = (page, callback) => {
+export const getPosts = (page, heading, order, callback) => {
   let skip = 0;
-
+  let query = {};
+  
   if (page > 1)
-    skip = (page*10) - 10;
+  skip = (page*10) - 10;
+  
+  if (heading)
+    query = {"heading": {$regex: RegExp(`${heading}`), $options: 'i'}};
 
-  Post.find().sort({"createdAt": 'asc'}).skip(skip).limit(10).exec((err, posts) => {
+  if (!order) 
+    order = "desc";
+
+  Post.find(query).sort({"createdAt": order}).skip(skip).limit(10).exec((err, posts) => {
     if(err)
       callback(err, null);
     
-    else
-      callback(null, posts);
+    else {
+      let response = {posts, count: posts.length};
+      callback(null, response);
+    }
   });
 };
 
 export const getPostById = (id, callback) => {
   Post.findById(id, callback);
-};
-
-export const getPostByHeading = (heading, callback) => {
-  let query = {"heading": {$regex: RegExp(`.*${heading}.*`), $options: 'i'}};
-
-  Post.find(query, callback);
 };
 
 export const createPost = (post, callback) => {
