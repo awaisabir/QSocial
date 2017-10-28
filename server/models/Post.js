@@ -52,3 +52,7 @@ export const getPostById = (id, callback) => {
 export const createPost = (post, callback) => {
   post.save(callback);
 };
+
+export const deletePost = (id, callback) => {
+  Post.findByIdAndRemove(id, callback);
+}
