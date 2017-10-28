@@ -62,7 +62,17 @@ router.patch('/:id', passport.authenticate('jwt', {session: false}), (req, res) 
 
 // delete a post
 router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+  const { id } = req.params;
 
+  Post.deletePost(id, (err, post) => {
+    if (err)
+      return res.json({success: false, message: 'Something went wrong! Please try again ...'});
+      
+    if (!post) 
+      return res.json({success: false, message: 'Something went wrong! Please try again ...'});
+
+    return res.json({success: true, message: 'Post has been deleted!', post});
+  });
 });
 
 export default router;
