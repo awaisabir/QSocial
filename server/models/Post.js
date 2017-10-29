@@ -24,17 +24,18 @@ export const Post = mongoose.model('Post', PostSchema);
 export const getPosts = (page, heading, order, callback) => {
   let skip = 0;
   let query = {};
-  
+  let sort = "desc";
+
   if (page > 1)
   skip = (page*10) - 10;
   
   if (heading)
     query = {"heading": {$regex: RegExp(`${heading}`), $options: 'i'}};
 
-  if (!order) 
-    order = "desc";
+  if (order) 
+    sort = order;
 
-  Post.find(query).sort({"createdAt": order}).skip(skip).limit(10).exec((err, posts) => {
+  Post.find(query).sort({"createdAt": sort}).skip(skip).limit(10).exec((err, posts) => {
     if(err)
       callback(err, null);
     
