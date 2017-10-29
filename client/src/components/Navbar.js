@@ -3,22 +3,20 @@ import { Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 
-export default ({logout}) => {
-  let token = localStorage.getItem('token');
-
+export default ({logout, isAuthed}) => {
   return (
     <Menu secondary>
       <Menu.Item><NavLink to="/home"><Menu.Item name='Home'/></NavLink></Menu.Item>
       <Menu.Menu position='right'>
-        {token === null ? 
+        {!isAuthed ? 
           <Menu.Item><NavLink to="/register"><Menu.Item name='Register'/></NavLink></Menu.Item> : null
         }
 
-        {token !== null ? 
+        {isAuthed ? 
           <Menu.Item><NavLink to="/profile"><Menu.Item name='Profile'/></NavLink></Menu.Item> : null
         }
 
-        {token === null ? 
+        {!isAuthed ? 
           <Menu.Item><NavLink to="/login"><Menu.Item name='Login'/></NavLink></Menu.Item> :
           <Menu.Item onClick={logout}>Logout</Menu.Item> 
         }
