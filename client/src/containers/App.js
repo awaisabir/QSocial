@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout } from '../actions/index';
-import decode from 'jwt-decode';
+import tokenCheck from '../utils/tokenCheck';
 
 import NavbarComponent from '../components/Navbar';
 import RouterRoot from '../components/routing/RouterRoot';
@@ -19,13 +19,9 @@ class App extends Component {
 
   componentWillMount() {
     let token = localStorage.getItem('token');
-    
-    if (!token || token == 'undefined') {
-      this.setState({isAuthed: false});
-    } else {
-      let user = decode(token);
-      this.setState({isAuthed: true, user});
-    }
+    let tokenStatus = tokenCheck(token);
+    let { status, data } = tokenStatus;
+    this.setState({isAuthed: status, user: data});
   }
 
   render() {
@@ -52,13 +48,9 @@ class App extends Component {
 
   updateIsAuthed() {
     let token = localStorage.getItem('token');
-    
-    if (!token || token == 'undefined') {
-      this.setState({isAuthed: false});
-    } else {
-      let user = decode(token);
-      this.setState({isAuthed: true, user});
-    }
+    let tokenStatus = tokenCheck(token);
+    let { status, data } = tokenStatus;
+    this.setState({isAuthed: status, user: data});
   }
 }
 

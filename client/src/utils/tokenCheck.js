@@ -1,19 +1,20 @@
 import decode from 'jwt-decode';
 import { tokenValidity } from '../actions/index';
 
-export const isTokenExpired = token => {
-  if (!token || token === 'undefined')
-    return true;
+export default token => {
+  console.log(token);
+  if (!token || token == 'undefined') {
+    return {status: false, data: {}};
+  } else {
+    try {
+      let data = decode(token);
 
-  try {
-    let { exp } = decode(token);
+      if (data.exp < new Date().getTime()/1000)
+        return {status: true, data: {}};    
 
-    if (exp < new Date().getTime() / 1000)
-      return true;
-    
-    let user = decode(token);
-    return user;
-  } catch (err) {
-    return true;
+      return {status: true, data};
+    } catch (err) {
+      return {status: false, data: {}};    
+    }
   }
 }
