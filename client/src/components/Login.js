@@ -19,12 +19,8 @@ class LoginComponent extends Component {
   render() {
     let { fetching, fetched, success, token, message } = this.props;
     
-    if (fetched) {
-      let storedToken = localStorage.getItem('token');
-      if ((!storedToken && storedToken !== undefined) || storedToken == 'undefined') {
-        localStorage.setItem('token', token);
-      }
-    }
+    if (fetched)
+      localStorage.setItem('token', token);
 
     if (fetched && !this.state.componentRendered && success)
       this.props.updateIsAuthed();
@@ -52,7 +48,7 @@ class LoginComponent extends Component {
         </Form>
       </Container>
     );
-  };
+  }
 
   submitHandler() {
     const { username, password } = this.state;
@@ -65,7 +61,7 @@ class LoginComponent extends Component {
       } else {
         this.setState({validationError: false});
       }
-    };
+    }
 
     if (!this.state.validationError) {
       this.setState({componentRendered: false, username: '', password: ''});
