@@ -11,13 +11,20 @@ export default ({updateIsAuthed, user, isAuthed}) => (
   <div>
     <Switch>
       <Route path="/home" component={HomeComponent} />
-      <Route path="/login" render={props => <LoginComponent updateIsAuthed={updateIsAuthed} {...props}/>} />
-      <Route path="/register" component={RegisterComponent} />
+      {isAuthed ? <Route path="/login" render={() => <Redirect to="/profile" />} /> 
+        : <Route path="/login" render={props => <LoginComponent updateIsAuthed={updateIsAuthed} {...props}/>} />
+      }
+
+      {isAuthed ? <Route path="/register" render={() => <Redirect to="/profile" />} /> 
+        : <Route path="/register" component={RegisterComponent} />} />
+      }
+
       <PrivateRoute 
         authed={isAuthed} 
         path='/profile' 
         render={props => <ProfileComponent user={user} />} 
       />
+
       <Route exact path="/" render={() => (
           <Redirect to="/home"/>
       )}/>
