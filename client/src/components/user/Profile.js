@@ -1,23 +1,23 @@
 import React from 'react';
-import { Card, Image } from 'semantic-ui-react';
-import matthew from '../../assets/matthew.png';
+import { Container, Grid, Header } from 'semantic-ui-react';
+import ProfileCardComponent from '../user/ProfileCard';
+
 import '../../styles/Profile.css';
 
 export default ({user}) => (
-  <Card>
-    <Image src={matthew} />
-    <Card.Content>
-      <Card.Header>
-        {user.firstName} {user.lastName}
-      </Card.Header>
-      <Card.Description>
-        <strong>Email:</strong> {user.email}
-      </Card.Description>
-      <Card.Meta>
-        <span className='date'>
-          Joined in {user.createdAt.substring(0,10)}
-        </span>
-      </Card.Meta>
-    </Card.Content>
-  </Card>
+  <Container className="profile" style={{display:'flex', flexDirection:'column'}}>
+    <Grid columns={1} centered>
+      <Grid.Row>
+        <ProfileCardComponent user={user} /><br/>
+      </Grid.Row>
+    </Grid>
+    <Grid columns={2} divided>
+      <Grid.Column>
+        <Header as='h2'>Your Posts</Header>
+      </Grid.Column>
+      <Grid.Column>
+        <Header as='h2'>Your Recent Activity</Header>
+      </Grid.Column>
+    </Grid>
+  </Container>
 );
