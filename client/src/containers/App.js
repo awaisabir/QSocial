@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout } from '../actions/index';
+import decode from 'jwt-decode';
 
 import NavbarComponent from '../components/Navbar';
-import RouterRoot from './Root';
+import RouterRoot from '../components/routing/RouterRoot';
 import'../styles/App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.logout = this.logout.bind(this);
-    this.state = {logoutSelected: false};
+    this.state = {isAuthed: false, user: {}};
+    this.updateIsAuthed = this.updateIsAuthed.bind(this);
+  }
+
+  componentWillMount() {
+    let token = localStorage.getItem('token');
+    
+    if (!token || token == 'undefined') {
+      this.setState({isAuthed: false});
+    } else {
+      let user = decode(token);
+      this.setState({isAuthed: true, user});
+    }
   }
 
   render() {
     return (
       <Router>
         <div>
-          <NavbarComponent logout={this.logout} />
-          <Route path="/" component={RouterRoot} />
+          <NavbarComponent logout={this.logout} isAuthed={this.state.isAuthed}/>
+          <Route path="/" render={props => <RouterRoot 
+            updateIsAuthed={this.updateIsAuthed} 
+            isAuthed={this.state.isAuthed} 
+            user={this.state.user}/>} 
+          />
         </div>
       </Router>
     );
@@ -29,7 +46,19 @@ class App extends Component {
   logout() {
     localStorage.removeItem('token');
     this.props.logout();
-    this.setState({logoutSelected: true});
+    this.setState({isAuthed: false, user: {}});
+    <Redirect to="/login" />
+  }
+
+  updateIsAuthed() {
+    let token = localStorage.getItem('token');
+    
+    if (!token || token == 'undefined') {
+      this.setState({isAuthed: false});
+    } else {
+      let user = decode(token);
+      this.setState({isAuthed: true, user});
+    }
   }
 }
 
