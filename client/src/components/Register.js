@@ -39,29 +39,29 @@ class RegisterComponent extends Component {
         <Form onSubmit={this.submitHandler}>
           <Form.Field>
             <label>Username</label>
-            <input type="text" onChange={(e) => {this.setState({username: e.target.value})}} value={this.state.username}/>
+            <input type="text" onChange={e => {this.setState({username: e.target.value})}} value={this.state.username}/>
           </Form.Field>
           <Form.Field>
               <label>Email</label>
               <input 
                 placeholder='example@example.com' 
                 type="email" 
-                onChange={(e) => {this.setState({email: e.target.value})}}
+                onChange={e => {this.setState({email: e.target.value})}}
                 value={this.state.email}
               />
           </Form.Field>
           <Form.Field>
             <label>Password</label>
-            <input type="password" onChange={(e) => {this.setState({password: e.target.value})}} value={this.state.password}/>
+            <input type="password" onChange={e => {this.setState({password: e.target.value})}} value={this.state.password}/>
           </Form.Field>
           <Form.Group>
             <Form.Field>
               <label>First Name</label>
-              <input type="text" onChange={(e) => {this.setState({firstName: e.target.value})}} value={this.state.firstName}/>
+              <input type="text" onChange={e => {this.setState({firstName: e.target.value})}} value={this.state.firstName}/>
             </Form.Field>
             <Form.Field>
               <label>Last Name</label>
-              <input type="text" onChange={(e) => {this.setState({lastName: e.target.value})}} value={this.state.lastName}/>
+              <input type="text" onChange={e => {this.setState({lastName: e.target.value})}} value={this.state.lastName}/>
             </Form.Field>
           </Form.Group>
           <Button type='submit' style={{marginTop: '15px'}}>Register</Button>
@@ -99,15 +99,11 @@ class RegisterComponent extends Component {
   validateEmail(email) {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-  };
+  }
 }
 
-const mapStateToProps = state => {
-  let { registrationReducer } = state;
+const mapStateToProps = ({ registrationReducer }) => registrationReducer;
 
-  return registrationReducer;
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({register}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ register }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);
