@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout } from '../actions/index';
@@ -16,10 +16,6 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.loggedOut) {
-      return <Redirect to="/login" />;
-    }
-
     return (
       <Router>
         <div>
