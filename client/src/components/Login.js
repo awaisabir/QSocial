@@ -26,6 +26,9 @@ class LoginComponent extends Component {
       }
     }
 
+    if (fetched && !this.state.componentRendered && success)
+      this.props.updateIsAuthed();
+
     return (
       <Container text>
         {fetching ? <Dimmer active inverted><Loader><span style={{color: '#0e51d6'}}>Loading Profile ... </span></Loader></Dimmer> : null}
