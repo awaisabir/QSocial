@@ -24,24 +24,23 @@ export const Post = mongoose.model('Post', PostSchema);
 export const getPosts = (page, heading, order, callback) => {
   let skip = 0;
   let query = {};
-  let sort = "desc";
+  let sort = {_id: -1};
 
   if (page > 1)
-  skip = (page*10) - 10;
+    skip = (page*10) - 10;
   
   if (heading)
-    query = {"heading": {$regex: RegExp(`${heading}`), $options: 'i'}};
+    query = {'heading': {$regex: RegExp(`${heading}`), $options: 'i'}};
 
-  if (order) 
-    sort = order;
+  if (order === 'asc') 
+    sort = {_id: 1};
 
-  Post.find(query).sort({"createdAt": sort}).skip(skip).limit(10).exec((err, posts) => {
+  Post.find(query).sort(sort).skip(skip).limit(10).exec((err, posts) => {
     if(err)
       callback(err, null);
     
     else {
-      let response = {posts, count: posts.length};
-      callback(null, response);
+      callback(null, posts);
     }
   });
 };
