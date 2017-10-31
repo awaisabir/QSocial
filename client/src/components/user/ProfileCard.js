@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card, Image } from 'semantic-ui-react';
+import dateConverter from '../../utils/dateConverter';
+
 import matthew from '../../assets/matthew.png';
 import '../../styles/Profile.css';
 
@@ -15,7 +17,7 @@ export default ({user}) => (
       </Card.Description>
       <Card.Meta>
         <span className='date'>
-          Joined in {user.createdAt.substring(0,10)}
+          Joined in {dateConverter(user.createdAt.substring(0,10))}
         </span>
       </Card.Meta>
     </Card.Content>
