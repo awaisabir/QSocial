@@ -17,7 +17,7 @@ class App extends Component {
     this.updateIsAuthed = this.updateIsAuthed.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let token = localStorage.getItem('token');
     let tokenStatus = tokenCheck(token);
     let { status, data } = tokenStatus;
