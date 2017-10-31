@@ -7,9 +7,13 @@ export default class PostsList extends Component {
   render() {
     return (
       <div>
-        <Header as='h2'>Posts List</Header>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-          <PostItem />
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          {this.props.posts.map(post => (
+              <div key={post._id}>
+                {post.heading}
+              </div>
+            ))
+          }
         </div>
       </div>
     );
