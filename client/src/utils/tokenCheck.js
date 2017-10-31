@@ -2,7 +2,6 @@ import decode from 'jwt-decode';
 import { tokenValidity } from '../actions/index';
 
 export default token => {
-  console.log(token);
   if (!token || token == 'undefined') {
     return {status: false, data: {}};
   } else {
