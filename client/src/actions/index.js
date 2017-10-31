@@ -5,21 +5,21 @@ export const register = (username, password, email, firstName, lastName) => {
     type: 'REGISTRATION',
     payload: axios.post('http://localhost:4200/api/auth/register', {username, password, email, firstName, lastName})
   };
-};
+}
 
 export const login = (username, password) => {
   return {
     type: 'AUTHENTICATION',
     payload: axios.post('http://localhost:4200/api/auth/login', {username, password})
   };
-};
+}
 
 export const tokenValidity = token => {
   return {
     type: 'TOKEN_VALIDITY',
     payload: axios.get('http://localhost:4200/api/auth/authorize', {headers: {Authorization: token}})
   };
-};
+}
 
 export const logout = () => {
   return {
@@ -28,4 +28,11 @@ export const logout = () => {
       loggedIn: false,
     }
   };
-};
+}
+
+export const getPosts = (token, page, heading, order) => {
+  return {
+    type: 'FETCH_POSTS',
+    payload: axios.get(`http://localhost:4200/api/posts?page=${page}&order=${order}`)
+  };
+}
