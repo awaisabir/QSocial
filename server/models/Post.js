@@ -5,7 +5,8 @@ import Comment from './Comment';
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const PostSchema = new mongoose.Schema({
-    createdBy: { type: ObjectId, ref: 'User', required: true },
+    user_id: {type: ObjectId, ref: 'User', required: true},
+    username: {type: String, ref: 'User', required: true},
     createdAt: {type: Date, default: Date.now(), required: true},
     editedAt: {type: Date, default: Date.now(), required: true},
     edited: {type: Boolean, default: false},
