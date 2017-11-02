@@ -8,8 +8,29 @@ import PostsList from '../components/posts/PostsList';
 import PostsPagination from '../components/posts/PostsPagination';
 
 class PostsContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 1,
+    };
+    
+    this.incrementPage = this.incrementPage.bind(this);
+    this.decrementPage = this.decrementPage.bind(this);
+  }
+
   componentDidMount() {
-    this.props.getPosts(1);
+    this.props.getPosts(this.state.page);
+  }
+
+  incrementPage(page) {  
+    this.setState({page: this.state.page+1});
+  }
+
+  decrementPage(page) {
+    if (page <= 1)
+      this.setState({page: 1});
+    else    
+      this.setState({page: this.state.page-1});
   }
 
   render() {
@@ -22,7 +43,7 @@ class PostsContainer extends Component {
       return (
         <Container>
           <PostsList posts={posts}/>
-          <PostsPagination />
+          <PostsPagination page={this.state.page} increment={this.incrementPage} decrement={this.decrementPage}/>
         </Container>
       );
     }
