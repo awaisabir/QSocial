@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
+  const { username } = req.query;
 
   User.getUserById(id, (err, user) => {
     if (err)
@@ -13,6 +14,11 @@ router.get('/:id', (req, res) => {
   
     if (!user)
       return res.json({success: false, message: 'User does not exist'});
+
+    if (username === 'true') {
+      let username = user.username;
+      return res.json({success: true, username});
+    }
 
     return res.json({success: true, user});
   });
