@@ -4,12 +4,12 @@
   padding: 5px;
 }
 
-.postsItem {
-  display: flex;
-  padding-left: 10px;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: solid 1px black;
-  height: 75px;
+.post-item {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.item .content > h2.ui.header {
+  font-size: 28px;
 }
