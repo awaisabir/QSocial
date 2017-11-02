@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Header, Item, Icon } from 'semantic-ui-react';
 
 import matthew from '../../assets/matthew.png';
 
-export default ({post}) => (
+export default ({ post }) => (
   <Item>
     <Item.Image size='small' src={matthew} />
 

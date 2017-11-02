@@ -70,7 +70,7 @@ router.patch('/:id', passport.authenticate('jwt', {session: false}), (req, res) 
       return res.json({success: false, message: 'Something went wrong! Please try again later ...'});
 
     return res.json({success: true, post});
-  })
+  });
 });
 
 // delete a post
