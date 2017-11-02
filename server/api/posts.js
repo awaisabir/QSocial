@@ -42,9 +42,10 @@ router.get('/:id', (req, res) => {
 
 // create a new post
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
-  const { createdBy, category, content, heading } = req.body;
+  const { username } = req.user;
+  const { user_id, category, content, heading } = req.body;
 
-  const newPost = new Post.Post({createdBy, category, content, heading});
+  const newPost = new Post.Post({user_id, username, category, content, heading});
   Post.createPost(newPost, (err, post) => {
     if (err)
       return res.json({success: false, message: 'There was an error on our part! Please try again later ...'});
