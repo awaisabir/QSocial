@@ -30,7 +30,7 @@ export const logout = () => {
   };
 }
 
-export const getPosts = (page, heading, order) => {
+export const getPosts = (page, order) => {
   return {
     type: 'FETCH_POSTS',
     payload: axios.get(`http://localhost:4200/api/posts?page=${page}&order=${order}`)

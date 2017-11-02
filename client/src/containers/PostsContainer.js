@@ -9,7 +9,7 @@ import PostsPagination from '../components/posts/PostsPagination';
 
 class PostsContainer extends Component {
   componentDidMount() {
-    this.props.getPosts();
+    this.props.getPosts(1);
   }
 
   render() {
