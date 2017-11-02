@@ -1,0 +1,15 @@
+.posts-container {
+  display: 'flex'; 
+  flex-direction: 'column';
+  padding: 5px;
+}
+
+.postsItem {
+  display: flex;
+  padding-left: 10px;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: solid 1px black;
+  height: 75px;
+}
