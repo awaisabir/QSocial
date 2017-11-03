@@ -22,6 +22,11 @@ class PostsContainer extends Component {
     this.props.getPosts(this.state.page);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.page !== prevState.page)
+      this.props.getPosts(this.state.page);
+  }
+
   incrementPage(page) {  
     this.setState({page: this.state.page+1});
   }
@@ -35,6 +40,7 @@ class PostsContainer extends Component {
 
   render() {
     let { fetching, fetched, success, posts } = this.props;
+    console.log(posts);
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
