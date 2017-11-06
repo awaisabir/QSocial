@@ -13,7 +13,7 @@ export default ({ post }) => (
       {/* <Item.Description>
         {post.content}
       </Item.Description> */}
-      <Item.Extra><Icon color='green' name='check' />{post.likes}  <Icon color='red' name='remove' />{post.dislikes}</Item.Extra>
+      <Item.Extra>{post.likes} <Icon name='thumbs up' />  {post.dislikes} <Icon name='thumbs down' /></Item.Extra>
     </Item.Content>
   </Item>
 );
