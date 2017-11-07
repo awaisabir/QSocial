@@ -6,12 +6,14 @@ import { getPosts } from '../actions/index';
 
 import PostsList from '../components/posts/PostsList';
 import PostsPagination from '../components/posts/PostsPagination';
+import Search from '../components/posts/Search';
 
 class PostsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 1,
+      term: '',
     };
     
     this.incrementPage = this.incrementPage.bind(this);
@@ -40,7 +42,8 @@ class PostsContainer extends Component {
 
   render() {
     let { fetching, fetched, success, posts } = this.props;
-    console.log(posts);
+
+
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
@@ -48,6 +51,9 @@ class PostsContainer extends Component {
     if (fetched && success) {
       return (
         <Container>
+          <div className="search-container">
+            <Search />
+          </div>
           <PostsList posts={posts}/>
           <PostsPagination page={this.state.page} increment={this.incrementPage} decrement={this.decrementPage}/>
         </Container>
