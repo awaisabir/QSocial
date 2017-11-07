@@ -8,7 +8,7 @@ import '../../styles/Post.css';
 export default class PostsList extends Component {
   render() {
     return (
-      <Item.Group>
+      <Item.Group className="post-list">
         {this.props.posts.map(post => (
           <PostItem key={post._id} post={post}/>
         ))}

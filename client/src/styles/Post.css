@@ -8,8 +8,38 @@
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
+  transition: 0.1s;
+}
+
+.post-item:hover {
+  transition: 0.1s;
+  box-shadow: 1px 1px 1px #888888 !important;
+  cursor: pointer;
 }
 
 .item .content > h2.ui.header {
   font-size: 28px;
 }
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.content.post-item .extra {
+  margin-bottom: 10px !important;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.search {
+  
+}
+
+/* People don't use Moore machines because he says actions are in states
+Everyone uses Mealy machines ... */
