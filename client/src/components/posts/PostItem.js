@@ -5,7 +5,7 @@ import matthew from '../../assets/matthew.png';
 
 export default ({ post }) => (
   <Item>
-    <Item.Image size='small' src={matthew} />
+    <Item.Image size='tiny' src={matthew} />
 
     <Item.Content className="post-item">
       <Header as="h2">{post.heading}</Header>
