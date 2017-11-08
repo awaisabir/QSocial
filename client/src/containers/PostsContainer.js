@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Header, Container, Loader,  } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getPosts } from '../actions/index';
+import { getPosts, getPostsByHeading } from '../actions/index';
 
 import PostsList from '../components/posts/PostsList';
 import PostsPagination from '../components/posts/PostsPagination';
@@ -13,11 +13,14 @@ class PostsContainer extends Component {
     super(props);
     this.state = {
       page: 1,
-      term: '',
+      searchTerm: '',
+      headingSearched: false,
     };
     
     this.incrementPage = this.incrementPage.bind(this);
     this.decrementPage = this.decrementPage.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onInput = this.onInput.bind(this);
   }
 
   componentDidMount() {
@@ -40,10 +43,16 @@ class PostsContainer extends Component {
       this.setState({page: this.state.page-1});
   }
 
+  onFormSubmit() {
+    this.props.getPostsByHeading(this.state.searchTerm);
+  }
+
+  onInput(searchTerm) {
+    this.setState({searchTerm: searchTerm});
+  }
+
   render() {
     let { fetching, fetched, success, posts } = this.props;
-
-
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
@@ -52,7 +61,7 @@ class PostsContainer extends Component {
       return (
         <Container>
           <div className="search-container">
-            <Search />
+            <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
           </div>
           <PostsList posts={posts}/>
           <PostsPagination page={this.state.page} increment={this.incrementPage} decrement={this.decrementPage}/>
@@ -69,6 +78,6 @@ class PostsContainer extends Component {
 }
 
 const mapStateToProps = ({postsReducer}) => postsReducer;
-const mapDispatchToProps = dispatch => bindActionCreators({getPosts}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({getPosts, getPostsByHeading}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsContainer);
