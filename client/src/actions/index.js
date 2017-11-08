@@ -36,3 +36,10 @@ export const getPosts = (page, order) => {
     payload: axios.get(`http://localhost:4200/api/posts?page=${page}&order=${order}`)
   };
 }
+
+export const getPostsByHeading = (heading, order) => (
+  {
+    type: 'FETCH_POSTS',
+    payload: axios.get(`http://localhost:4200/api/posts?heading=${heading}&order=${order}`)
+  }
+);
