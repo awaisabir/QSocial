@@ -43,7 +43,7 @@ class App extends Component {
     localStorage.removeItem('token');
     this.props.logout();
     this.setState({isAuthed: false, user: {}});
-    <Redirect to="/login" />
+    return <Redirect to="/login" />
   }
 
   updateIsAuthed() {
