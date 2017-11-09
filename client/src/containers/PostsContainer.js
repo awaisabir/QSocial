@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Container, Loader,  } from 'semantic-ui-react';
+import { Header, Container, Loader, Button, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getPosts, getPostsByHeading } from '../actions/index';
+import { getPosts } from '../actions/index';
 
 import PostsList from '../components/posts/PostsList';
 import PostsPagination from '../components/posts/PostsPagination';
@@ -14,6 +14,7 @@ class PostsContainer extends Component {
     this.state = {
       page: 1,
       searchTerm: '',
+      order: 'desc',
       headingSearched: false,
     };
     
@@ -24,12 +25,15 @@ class PostsContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.getPosts(this.state.page);
+    const { page, searchTerm, order } = this.state;
+    this.props.getPosts(page, searchTerm, order);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.page !== prevState.page)
-      this.props.getPosts(this.state.page);
+    const { page, searchTerm } = this.state;
+    
+    if (page !== prevState.page)
+      this.props.getPosts(page, searchTerm);
   }
 
   incrementPage(page) {  
@@ -44,7 +48,9 @@ class PostsContainer extends Component {
   }
 
   onFormSubmit() {
-    this.props.getPostsByHeading(this.state.searchTerm);
+    const { page, searchTerm, order } = this.state;
+
+    this.props.getPosts(page, searchTerm, order);
   }
 
   onInput(searchTerm) {
@@ -52,7 +58,8 @@ class PostsContainer extends Component {
   }
 
   render() {
-    let { fetching, fetched, success, posts } = this.props;
+    const { fetching, fetched, success, posts, history } = this.props;
+    const { searchTerm } = this.state;
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
@@ -64,6 +71,10 @@ class PostsContainer extends Component {
             <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
           </div>
           <PostsList posts={posts}/>
+          {searchTerm !== '' ? 
+            <Button icon="chevron left" content="Back to posts" onClick={() => history.push('/')}/> : 
+            null
+          }
           <PostsPagination page={this.state.page} increment={this.incrementPage} decrement={this.decrementPage}/>
         </Container>
       );
@@ -78,6 +89,6 @@ class PostsContainer extends Component {
 }
 
 const mapStateToProps = ({postsReducer}) => postsReducer;
-const mapDispatchToProps = dispatch => bindActionCreators({getPosts, getPostsByHeading}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({getPosts}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsContainer);
