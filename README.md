@@ -19,6 +19,11 @@ Tech being used are:
 
 ## Current Status :nut_and_bolt: :zap: :hammer:
 
+## General
+
+- Need to create documentation on how to get app up and running!
+- Add pictures of app for a visual
+
 ### Backend
 
 - Need to complete the Posts API.
