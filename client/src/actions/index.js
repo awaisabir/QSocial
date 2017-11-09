@@ -30,16 +30,9 @@ export const logout = () => {
   };
 }
 
-export const getPosts = (page, order) => {
+export const getPosts = (page, heading, order) => {
   return {
     type: 'FETCH_POSTS',
-    payload: axios.get(`http://localhost:4200/api/posts?page=${page}&order=${order}`)
+    payload: axios.get(`http://localhost:4200/api/posts?page=${page}&heading=${heading}&order=${order}`)
   };
 }
-
-export const getPostsByHeading = (heading, order) => (
-  {
-    type: 'FETCH_POSTS',
-    payload: axios.get(`http://localhost:4200/api/posts?heading=${heading}&order=${order}`)
-  }
-);
