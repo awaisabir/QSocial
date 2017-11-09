@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, Input } from 'semantic-ui-react';
 
 export default ({onFormSubmit, onInput}) => (
