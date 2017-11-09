@@ -36,13 +36,16 @@ export const getPosts = (page, heading, order, callback) => {
   if (order === 'asc') 
     sort = {_id: 1};
 
-  Post.find(query).sort(sort).skip(skip).limit(10).exec((err, posts) => {
-    if(err)
-      callback(err, null);
-    
-    else {
-      callback(null, posts);
-    }
+  Post.count({}, (err, total) => {
+    Post.find(query).sort(sort).skip(skip).limit(10).exec((err, posts) => {
+      if(err)
+        callback(err, null);
+      
+      else {
+        const results = {total, posts};
+        callback(null, results);
+      }
+    });
   });
 };
 
