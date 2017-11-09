@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Container, Loader, Button, Icon } from 'semantic-ui-react';
+import { Header, Container, Loader, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getPosts } from '../actions/index';
