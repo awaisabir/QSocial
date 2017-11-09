@@ -10,16 +10,18 @@ router.get('/', (req, res) => {
   if (!page)
     page = 1;
 
-  Post.getPosts(page, heading, order, (err, posts) => {
+  Post.getPosts(page, heading, order, (err, modelData) => {
     if (err)
       return res.json({success: false, message: 'Something went wrong! Please try again later'});
     
-    if (!posts)
+    if (!modelData)
       return res.json({success: false, message: 'There are no posts! ...'});
 
     else {
-      let count = posts.length;
-      let response = {success: true, count, posts};
+      const count = modelData.posts.length;
+      const totalPosts = modelData.total;
+      const posts = modelData.posts;
+      const response = {success: true, count, posts, totalPosts};
       return res.json(response);
     }
   });
