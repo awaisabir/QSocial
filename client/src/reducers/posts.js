@@ -4,6 +4,8 @@ const initalState = {
   success: '',
   message: false,
   posts: [],
+  count: 0,
+  totalPosts: 0,
   errors: {}
 };
 
@@ -17,6 +19,8 @@ export default (state=initalState, {type, payload}) => {
         message: payload.data.message, 
         success: payload.data.success,
         posts: [...payload.data.posts],
+        count: payload.data.count,
+        total: payload.data.totalPosts,
         errors: {}
       }
     
