@@ -58,13 +58,15 @@ class PostsContainer extends Component {
   }
 
   render() {
-    const { fetching, fetched, success, posts, history } = this.props;
+    const { fetching, fetched, success, posts, history, count, totalPosts } = this.props;
     const { searchTerm } = this.state;
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
 
     if (fetched && success) {
+      let max = Math.ceil(totalPosts/10);
+
       return (
         <Container>
           <div className="search-container">
@@ -75,7 +77,12 @@ class PostsContainer extends Component {
             <Button icon="chevron left" content="Back to posts" onClick={() => history.push('/')}/> : 
             null
           }
-          <PostsPagination page={this.state.page} increment={this.incrementPage} decrement={this.decrementPage}/>
+          <PostsPagination 
+            page={this.state.page}
+            max={max}
+            increment={this.incrementPage} 
+            decrement={this.decrementPage}  
+          />
         </Container>
       );
     }

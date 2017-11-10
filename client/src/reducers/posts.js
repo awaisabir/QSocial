@@ -20,7 +20,7 @@ export default (state=initalState, {type, payload}) => {
         success: payload.data.success,
         posts: [...payload.data.posts],
         count: payload.data.count,
-        total: payload.data.totalPosts,
+        totalPosts: payload.data.totalPosts,
         errors: {}
       }
     
