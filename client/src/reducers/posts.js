@@ -27,11 +27,6 @@ export default (state=initalState, {type, payload}) => {
     case 'FETCH_POSTS_REJECTED':
       return {
         ...state,
-        fetched: false,
-        fetching: false,
-        message: '',
-        success: false,
-        posts: [],
         errors: {...payload}
       }
 
@@ -45,7 +40,7 @@ export default (state=initalState, {type, payload}) => {
         posts: [],
         errors: {}
       }
-      
+
     default:
       return state;
   }
