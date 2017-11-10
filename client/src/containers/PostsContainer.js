@@ -58,7 +58,7 @@ class PostsContainer extends Component {
   }
 
   render() {
-    const { fetching, fetched, success, posts, history, count, totalPosts } = this.props;
+    const { fetching, fetched, success, posts, history, totalPosts } = this.props;
     const { searchTerm } = this.state;
 
     if (fetching)
@@ -72,9 +72,9 @@ class PostsContainer extends Component {
           <div className="search-container">
             <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
           </div>
-          <PostsList posts={posts}/>
+          <PostsList posts={posts} history={history}/>
           {searchTerm !== '' ? 
-            <Button icon="chevron left" content="Back to posts" onClick={() => history.push('/')}/> : 
+            <Button icon="chevron left" content="All Posts" onClick={() => history.push('/')}/> : 
             null
           }
           <PostsPagination 
