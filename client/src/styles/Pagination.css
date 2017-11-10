@@ -2,12 +2,9 @@
   display: flex !important; 
   justify-content: center !important;
   margin-top: 50px;
+  align-items: baseline;
 }
 
 .pagination {
   background: none !important;
-}
-
-.pagination.right {
-  margin-left: 5px;
 }
