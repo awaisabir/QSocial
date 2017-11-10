@@ -30,13 +30,14 @@ export const getPosts = (page, heading, order, callback) => {
   if (page > 1)
     skip = (page*10) - 10;
   
-  if (heading)
+  if (heading) {
     query = {'heading': {$regex: RegExp(`${heading}`), $options: 'i'}};
+  }
 
   if (order === 'asc') 
     sort = {_id: 1};
 
-  Post.count({}, (err, total) => {
+  Post.count(query, (err, total) => {
     Post.find(query).sort(sort).skip(skip).limit(10).exec((err, posts) => {
       if(err)
         callback(err, null);
