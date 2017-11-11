@@ -58,13 +58,21 @@ class PostsContainer extends Component {
   }
 
   render() {
-    const { fetching, fetched, success, posts, history, totalPosts } = this.props;
+    const { fetching, fetched, success, posts, history, totalPosts, message } = this.props;
     const { searchTerm } = this.state;
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
 
     if (fetched && success) {
+      if (totalPosts === 0) {
+        return (
+          <Container>
+            <Header as='h1'>No Posts ...</Header>
+          </Container>
+        );
+      }
+
       let max = Math.ceil(totalPosts/10);
 
       return (
