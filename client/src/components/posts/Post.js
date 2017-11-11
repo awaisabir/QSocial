@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getPostById } from '../../actions/index';
-import { Header, Container, Loader, Dimmer, Button, Icon } from 'semantic-ui-react';
+import { Header, Container, Loader, Dimmer, Button, Icon, Image } from 'semantic-ui-react';
+import matthew from '../../assets/matthew.png'
 
 class Post extends Component {
   componentWillMount() {
@@ -24,8 +25,10 @@ class Post extends Component {
     if (fetched && success) {
       return (
         <Container>
+          <Image src={matthew} size='small'/>
           <Header as='h2'>{post.heading}</Header>
           <p>by {post.username}</p>
+          <p>{post.content}</p>
           <Button onClick={() => history.push(`/`)}>
           <Icon name='chevron left' /> All Posts
           </Button>
