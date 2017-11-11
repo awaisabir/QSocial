@@ -5,6 +5,6 @@ const dbPassword = process.env.DB_PASSWORD;
 import SECRET from './secret';
 
 export default {
-    address: 'mongodb://localhost:27017/blog_db',
+    address: 'mongodb://localhost:27017/QSocial',
     auth_secret: SECRET
 };
