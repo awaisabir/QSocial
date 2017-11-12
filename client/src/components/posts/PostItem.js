@@ -4,13 +4,13 @@ import { Header, Item, Icon, Button } from 'semantic-ui-react';
 import matthew from '../../assets/matthew.png';
 
 export default ({ post, getPost, history }) => (
-  <Item>
-    <Item.Image size='tiny' src={matthew} />
+  <Item className="post-item">
+    <Item.Image size='small' src={matthew} />
 
-    <Item.Content className="post-item">
+    <Item.Content className="post-summary">
       <Header as="h2">{post.heading}</Header>
       <Item.Meta>by {post.username}</Item.Meta>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+      <div className="view-button">
         <Button onClick={() => history.push(`/posts/${post._id}`)}>
           View <Icon name='chevron right' />
         </Button>

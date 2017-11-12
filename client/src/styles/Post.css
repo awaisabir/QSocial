@@ -11,11 +11,11 @@
   transition: 0.1s;
 }
 
-.post-item:hover {
+/* .post-item:hover {
   transition: 0.1s;
   box-shadow: 1px 1px 1px #888888 !important;
   cursor: pointer;
-}
+} */
 
 .item .content > h2.ui.header {
   font-size: 28px;
@@ -37,9 +37,31 @@
   margin-bottom: 15px;
 }
 
-.search {
-  
+.view-button {
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* People don't use Moore machines because he says actions are in states
-Everyone uses Mealy machines ... */
+.post-item {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center !important;
+}
+
+.post-summary {
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .post-summary {
+    text-align: center;
+  }
+
+  .view-button {
+    justify-content: center !important;
+  }
+
+  .post-item {
+    align-items: center;
+  }
+}
