@@ -11,7 +11,7 @@ import Profile from '../user/Profile';
 export default ({updateIsAuthed, user, isAuthed}) => (
   <div>
     <Switch>
-      <Route exact path="/posts" render={props => <Posts {...props} />} />
+      <Route exact path="/posts" render={props => <Posts {...props} isAuthed={isAuthed}/>} />
       
       <Route path="/posts/:id" render={props => <Post {...props} />} />
 

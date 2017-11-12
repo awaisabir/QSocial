@@ -58,7 +58,7 @@ class PostsContainer extends Component {
   }
 
   render() {
-    const { fetching, fetched, success, posts, history, totalPosts, message } = this.props;
+    const { fetching, fetched, success, posts, history, totalPosts, message, isAuthed } = this.props;
     const { searchTerm } = this.state;
 
     if (fetching)
@@ -79,6 +79,9 @@ class PostsContainer extends Component {
         <Container>
           <div className="search-container">
             <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
+          </div>
+          <div className="search-container">
+              {isAuthed ? <Button circular icon='plus' /> : null}
           </div>
           <PostsList posts={posts} history={history}/>
           {searchTerm !== '' ? 
