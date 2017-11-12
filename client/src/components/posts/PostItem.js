@@ -3,7 +3,7 @@ import { Header, Item, Icon, Button } from 'semantic-ui-react';
 
 import matthew from '../../assets/matthew.png';
 
-export default ({ post, getPost, history }) => (
+export default ({ post, history }) => (
   <Item className="post-item">
     <Item.Image size='small' src={matthew} />
 
@@ -15,9 +15,6 @@ export default ({ post, getPost, history }) => (
           View <Icon name='chevron right' />
         </Button>
       </div>
-      {/* <Item.Description>
-        {post.content}
-      </Item.Description> */}
       <Item.Extra>{post.likes} <Icon name='thumbs up' />  {post.dislikes} <Icon name='thumbs down' /></Item.Extra>
     </Item.Content>
   </Item>
