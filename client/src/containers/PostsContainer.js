@@ -7,6 +7,8 @@ import { getPosts } from '../actions/index';
 import PostsList from '../components/posts/PostsList';
 import PostsPagination from '../components/posts/PostsPagination';
 import Search from '../components/posts/Search';
+import CreatePost from '../components/ui/CreatePost';
+
 
 class PostsContainer extends Component {
   constructor(props) {
@@ -58,7 +60,7 @@ class PostsContainer extends Component {
   }
 
   render() {
-    const { fetching, fetched, success, posts, history, totalPosts, message, isAuthed } = this.props;
+    const { fetching, fetched, success, posts, history, totalPosts, isAuthed, userId } = this.props;
     const { searchTerm } = this.state;
 
     if (fetching)
@@ -81,7 +83,7 @@ class PostsContainer extends Component {
             <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
           </div>
           <div className="search-container">
-              {isAuthed ? <Button circular icon='plus' /> : null}
+              {isAuthed ? <CreatePost userId={userId}/> : null}
           </div>
           <PostsList posts={posts} history={history}/>
           {searchTerm !== '' ? 
