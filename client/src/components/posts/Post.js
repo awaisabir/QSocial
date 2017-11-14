@@ -12,7 +12,7 @@ class Post extends Component {
   }
 
   render() {
-    const { fetched, fetching, success, post, message, history } = this.props;
+    const { fetched, fetching, success, post, history } = this.props;
 
     if (fetching) {
       return (
