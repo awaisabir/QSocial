@@ -12,7 +12,7 @@ const PostSchema = new mongoose.Schema({
     edited: {type: Boolean, default: false},
     likes: {type: Number, default: 0},
     dislikes: {type: Number, default: 0},
-    category: {type: String, required: true},
+    categories: {type: Array, required: true},
     locked: {type: Boolean, default: false},
     content: {type: String, required: true},
     heading: {type: String, required: true},
