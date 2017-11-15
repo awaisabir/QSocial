@@ -69,8 +69,18 @@ class PostsContainer extends Component {
     if (fetched && success) {
       if (totalPosts === 0) {
         return (
-          <Container>
-            <Header as='h1'>No Posts ...</Header>
+          <Container className="no-posts-container">
+            <Header as='h1'>Unfortunately there are no posts at the moment ... 😓</Header>
+            {isAuthed ? 
+              <div style={{textAlign: 'center'}}>
+                <Header as='h5'>Click the plus to Create the first post! 😁</Header>
+                <CreatePost userId={userId} history={history}/>
+              </div> : 
+              <div>
+                <Header as='h5'>Login/Register to create a post! 😁</Header>
+              </div>
+            }
+            
           </Container>
         );
       }
@@ -83,7 +93,7 @@ class PostsContainer extends Component {
             <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
           </div>
           <div className="search-container">
-              {isAuthed ? <CreatePost userId={userId}/> : null}
+              {isAuthed ? <CreatePost userId={userId} history={history}/> : null}
           </div>
           <PostsList posts={posts} history={history}/>
           {searchTerm !== '' ? 
