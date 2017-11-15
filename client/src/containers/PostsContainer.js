@@ -70,14 +70,14 @@ class PostsContainer extends Component {
       if (totalPosts === 0) {
         return (
           <Container className="no-posts-container">
-            <Header as='h1'>Unfortunately there are no posts at the moment ... <span>😓</span></Header>
+            <Header as='h1'>Unfortunately there are no posts at the moment ... <span role="img" aria-label="emoji1">😓</span></Header>
             {isAuthed ? 
               <div style={{textAlign: 'center'}}>
-                <Header as='h5'>Click the plus to Create the first post! <span>😁</span></Header>
+                <Header as='h5'>Click the plus to Create the first post! <span role="img" aria-label="emoji2">😁</span></Header>
                 <CreatePost userId={userId} history={history}/>
               </div> : 
               <div>
-                <Header as='h5'>Login/Register to create a post! <span>😁</span></Header>
+                <Header as='h5'>Login/Register to create a post! <span role="img" aria-label="emoji3">😁</span></Header>
               </div>
             }
             
