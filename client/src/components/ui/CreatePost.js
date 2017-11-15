@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Modal, Icon, Button, Header, Form, Label, List, Input, TextArea } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { createPost, createdPost } from '../../actions/index';
+import { Redirect } from 'react-router-dom';
 
-export default class MyModal extends Component {
+class MyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,37 +18,48 @@ export default class MyModal extends Component {
     this._modalOnClose = this._modalOnClose.bind(this);
   }
 
+  componentDidUpdate() {
+    const { fetched, success, history, createdPost } = this.props;
+
+    if (fetched && success) {
+      createdPost();
+      history.push('/');
+    }
+  }
+
   _modalOnClose() {
     this.setState({heading: '', content: '', category: '', categories: []});
   }
 
   render() {
-    const { userId } = this.props;
+    const { userId, createPost, message, fetching } = this.props;
+    const { heading, content, category, categories } = this.state;
+
 
     return (
       <Modal dimmer={'blurring'} trigger={<Button circular icon='plus' />} onClose={this._modalOnClose} >
-        <Modal.Header>Title: {this.state.heading}</Modal.Header>
+        <Modal.Header>Title: {heading}</Modal.Header>
         <Modal.Content scrolling>
           <Modal.Description>
             <div>
-              {this.state.categories.map(category => (
+              {categories.map(category => (
                 <Label key={category}>{category}</Label>
               ))}
             </div>
 
-            <p style={{marginTop: '15px'}}>{this.state.content}</p>
+            <p style={{marginTop: '15px'}}>{content}</p>
 
             <Form>
               <div style={{marginBottom: '5px'}}>
                 <Input onChange={e => {this.setState({heading: e.target.value})}} placeholder={'Enter your title here'}/>
               </div>
               <div style={{marginTop: '10px'}}>
-                <Input placeholder={'Add category(ies)'} onChange={e => this.setState({category: e.target.value})} value={this.state.category}/>
+                <Input placeholder={'Add category(ies)'} onChange={e => this.setState({category: e.target.value})} value={category}/>
 
                 {this.state.category === '' 
                   ? null : 
                   <Button 
-                  onClick={() => {this.setState({categories: [...this.state.categories, this.state.category], category: ''})}}
+                  onClick={() => {this.setState({categories: [...categories, category], category: ''})}}
                   icon='tags'
                 />
                 }
@@ -62,11 +77,16 @@ export default class MyModal extends Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button primary>
-            Create <Icon name='right chevron' />
+          <Button primary onClick={() => {createPost(localStorage.getItem('token'), userId, heading, content, categories)}}>
+            Create Post<Icon name='right chevron' />
           </Button>
         </Modal.Actions>
       </Modal>
     );
   }
 };
+
+const maptStateToProps = ({ postReducer }) => postReducer;
+const mapDispatchToProps = dispatch => bindActionCreators({createPost, createdPost}, dispatch);
+
+export default connect(maptStateToProps, mapDispatchToProps)(MyModal);

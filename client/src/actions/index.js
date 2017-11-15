@@ -43,3 +43,17 @@ export const getPostById = id => {
     payload: axios.get(`http://localhost:4200/api/posts/${id}`)
   };
 }
+
+export const createPost = (token, user_id, heading, content, categories) => {
+  return {
+    type: 'CREATE_POST',
+    payload: axios.post(`http://localhost:4200/api/posts`, {user_id, heading, categories, content}, {headers: {Authorization: token}})
+  }
+}
+
+export const createdPost = () => {
+  return {
+    type: 'POST_RETREIVED',
+    paylaod: {},
+  }
+}
