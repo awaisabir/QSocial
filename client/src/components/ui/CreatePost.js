@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Icon, Button, Header, Form, Label, List, Input, TextArea } from 'semantic-ui-react';
+import { Modal, Icon, Button, Form, Label, Input, TextArea } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createPost, createdPost } from '../../actions/index';
-import { Redirect } from 'react-router-dom';
 
 class MyModal extends Component {
   constructor(props) {
@@ -32,7 +31,7 @@ class MyModal extends Component {
   }
 
   render() {
-    const { userId, createPost, message, fetching } = this.props;
+    const { userId, createPost } = this.props;
     const { heading, content, category, categories } = this.state;
 
 
