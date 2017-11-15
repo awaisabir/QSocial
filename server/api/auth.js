@@ -52,7 +52,7 @@ router.post('/login', (req, res) => {
           
           if (isMatch) {
             let { firstName, lastName, username, id, email, createdAt } = user;
-            const token = jwt.sign({id, firstName, lastName, username, email, createdAt}, config.auth_secret, {expiresIn: '1h'});
+            const token = jwt.sign({id, firstName, lastName, username, email, createdAt}, config.auth_secret, {expiresIn: '365d'});
             
             res.json({
               success: true,
