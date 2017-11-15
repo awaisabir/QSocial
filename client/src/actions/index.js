@@ -51,9 +51,16 @@ export const createPost = (token, user_id, heading, content, categories) => {
   }
 }
 
-export const createdPost = () => {
+export const modalClosed = () => {
   return {
-    type: 'POST_RETREIVED',
+    type: 'MODAL_CLOSED',
+    paylaod: {},
+  }
+}
+
+export const modalOpened = () => {
+  return {
+    type: 'MODAL_OPENED',
     paylaod: {},
   }
 }
