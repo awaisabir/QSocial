@@ -57,7 +57,12 @@ export default (state=initialState, {type, payload}) => {
           errors: {...payload.data}
         }
       
-      case 'POST_RETREIVED':
+      case 'MODAL_CLOSED':
+        return {
+          ...initialState,
+        }
+      
+      case 'MODAL_OPENED':
         return {
           ...initialState,
         }
