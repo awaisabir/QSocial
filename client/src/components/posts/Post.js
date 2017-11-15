@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getPostById } from '../../actions/index';
-import { Header, Container, Loader, Dimmer, Button, Icon, Image } from 'semantic-ui-react';
+import { Header, Container, Loader, Dimmer, Button, Icon, Image, Label } from 'semantic-ui-react';
 import matthew from '../../assets/matthew.png'
 
 class Post extends Component {
@@ -27,8 +27,15 @@ class Post extends Component {
         <Container>
           <Image src={matthew} size='small'/>
           <Header as='h2'>{post.heading}</Header>
+          <div style={{marginBottom: '10px'}}>
+            {post.categories.map(category => (
+              <Label key={category}>{category}</Label>
+            ))}
+          </div>
           <p>by {post.username}</p>
-          <p>{post.content}</p>
+          <div style={{border: '1px solid black', borderRadius: '3px', padding: '10px', marginBottom: '10px'}}>
+            <p>{post.content}</p>
+          </div>
           <Button onClick={() => history.push(`/`)}>
           <Icon name='chevron left' /> All Posts
           </Button>
