@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createPost, modalClosed, modalOpened } from '../../actions/index';
 
-import '../../styles/checkmark.css'
+import '../../styles/alerts.css'
 
 class MyModal extends Component {
   constructor(props) {
@@ -29,6 +29,10 @@ class MyModal extends Component {
     this.props.modalOpened();
   }
 
+  _redirectToPost(id) {
+    const { history } = this.props;
+    setTimeout(() => history.push(`/posts/${id}`), 2500);
+  }
 
   render() {
     const { userId, createPost, history, post, fetching, fetched, success } = this.props;
@@ -47,11 +51,24 @@ class MyModal extends Component {
             }
 
             {fetched ? 
-              <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-              </svg>   
+              success ?
+                <div className="f-modal-icon f-modal-success animate">
+                  <span className="f-modal-line f-modal-tip animateSuccessTip"></span>
+                  <span className="f-modal-line f-modal-long animateSuccessLong"></span>
+                  <div className="f-modal-placeholder"></div>
+                  <div className="f-modal-fix"></div>
+                </div> :
+                <div className="f-modal-icon f-modal-error animate">
+                  <span className="f-modal-x-mark">
+                    <span className="f-modal-line f-modal-left animateXLeft"></span>
+                    <span className="f-modal-line f-modal-right animateXRight"></span>
+                  </span>
+                  <div className="f-modal-placeholder"></div>
+                  <div className="f-modal-fix"></div>
+                </div>
               : null
             }
+
             <div>
               {categories.map(category => (
                 <Label key={category}>{category}</Label>
@@ -89,7 +106,7 @@ class MyModal extends Component {
           {fetched && success ?
             <Button color='olive' onClick={() => history.push(`/posts/${post._id}`)}>
               Go to Post <Icon name='right chevron' />
-            </Button> : 
+            </Button>: 
             <Button primary onClick={() => {createPost(localStorage.getItem('token'), userId, heading, content, categories)}}>
               Create Post<Icon name='right chevron' />
             </Button>
