@@ -14,32 +14,46 @@ class MyModal extends Component {
       content: '',
       categories: [],
       category: '',
+      categoryError: false,
+      open: false,
     };
 
     this._modalOnClose = this._modalOnClose.bind(this);
     this._modalOnOpen = this._modalOnOpen.bind(this);
+    this._addCategory = this._addCategory.bind(this);
   }
 
   _modalOnClose() {
-    this.setState({heading: '', content: '', category: '', categories: []});
+    this.setState({heading: '', content: '', category: '', categories: [], open: false});
     this.props.modalClosed();
   }
 
   _modalOnOpen() {
+    this.setState({open: true});
     this.props.modalOpened();
   }
 
-  _redirectToPost(id) {
-    const { history } = this.props;
-    setTimeout(() => history.push(`/posts/${id}`), 2500);
+  _addCategory(category) {
+    if (this.state.categories.includes(category))
+      this.setState({categoryError: true});
+  
+    else {
+      this.setState({categoryError: false});
+      this.setState({categories: [...this.state.categories, category], category: ''})
+    }
   }
 
   render() {
     const { userId, createPost, history, post, fetching, fetched, success } = this.props;
-    const { heading, content, category, categories } = this.state;
+    const { heading, content, category, categories, categoryError } = this.state;
 
     return (
-      <Modal dimmer={'blurring'} trigger={<Button circular icon='plus' />} onClose={this._modalOnClose} onOpen={this._modalOnOpen}>
+      <Modal 
+        open={this.state.open} dimmer={'blurring'} 
+        trigger={<Button circular icon='plus' />} 
+        onClose={this._modalOnClose} onOpen={this._modalOnOpen}
+      >
+
         <Modal.Header>Title: {heading}</Modal.Header>
         <Modal.Content scrolling>
           <Modal.Description>
@@ -49,6 +63,39 @@ class MyModal extends Component {
               </Dimmer> : 
               null
             }
+
+            <div>
+              {categoryError ? <p style={{color: 'red'}}>Tag already exists!</p> : null}
+              {categories.map(category => (
+                <Label key={category}>{category}</Label>
+              ))}
+            </div>
+
+            <p style={{marginTop: '15px'}}>{content}</p>
+
+            <Form>
+              <div style={{marginBottom: '5px'}}>
+                <Input onChange={e => {this.setState({heading: e.target.value})}} placeholder={'Enter your title here'}/>
+              </div>
+              <div style={{marginTop: '10px'}}>
+                <Input placeholder={'Add category(ies)'} onChange={e => this.setState({category: e.target.value})} value={category}/>
+
+                {category === '' 
+                  ? null : 
+                  <Button 
+                  onClick={() => this._addCategory(category)}
+                  icon='tags'
+                />
+                }
+              </div>
+
+              <TextArea 
+                style={{marginTop: '10px'}}
+                autoHeight={true} 
+                onChange={e => {this.setState({content: e.target.value})}} 
+                placeholder={'Enter your content here'}
+              />
+            </Form>
 
             {fetched ? 
               success ?
@@ -68,38 +115,6 @@ class MyModal extends Component {
                 </div>
               : null
             }
-
-            <div>
-              {categories.map(category => (
-                <Label key={category}>{category}</Label>
-              ))}
-            </div>
-
-            <p style={{marginTop: '15px'}}>{content}</p>
-
-            <Form>
-              <div style={{marginBottom: '5px'}}>
-                <Input onChange={e => {this.setState({heading: e.target.value})}} placeholder={'Enter your title here'}/>
-              </div>
-              <div style={{marginTop: '10px'}}>
-                <Input placeholder={'Add category(ies)'} onChange={e => this.setState({category: e.target.value})} value={category}/>
-
-                {this.state.category === '' 
-                  ? null : 
-                  <Button 
-                  onClick={() => {this.setState({categories: [...categories, category], category: ''})}}
-                  icon='tags'
-                />
-                }
-              </div>
-
-              <TextArea 
-                style={{marginTop: '10px'}}
-                autoHeight={true} 
-                onChange={e => {this.setState({content: e.target.value})}} 
-                placeholder={'Enter your content here'}
-              />
-            </Form>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
