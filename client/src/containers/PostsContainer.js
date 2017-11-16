@@ -7,7 +7,7 @@ import { getPosts } from '../actions/index';
 import PostsList from '../components/posts/PostsList';
 import PostsPagination from '../components/posts/PostsPagination';
 import Search from '../components/posts/Search';
-import CreatePost from '../components/ui/CreatePost';
+import CreatePost from '../components/posts/CreatePost';
 
 
 class PostsContainer extends Component {
