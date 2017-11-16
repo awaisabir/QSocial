@@ -22,7 +22,7 @@ const PostSchema = new mongoose.Schema({
 
 export const Post = mongoose.model('Post', PostSchema);
 
-export const getPosts = (page, heading, order, callback) => {
+export const getPosts = (page, heading, order, category, callback) => {
   let skip = 0;
   let query = {};
   let sort = {_id: -1};
@@ -31,7 +31,11 @@ export const getPosts = (page, heading, order, callback) => {
     skip = (page*10) - 10;
   
   if (heading) {
-    query = {'heading': {$regex: RegExp(`${heading}`), $options: 'i'}};
+    query.heading = {$regex: RegExp(`${heading}`), $options: 'i'};
+  }
+
+  if (category) {
+    query.categories = {$in : [category]};
   }
 
   if (order === 'asc') 

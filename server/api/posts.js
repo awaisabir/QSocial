@@ -5,12 +5,12 @@ const router = express.Router();
 
 // get posts
 router.get('/', (req, res) => {
-  let { page, heading, order } = req.query;
+  let { page, heading, order, category } = req.query;
 
   if (!page)
     page = 1;
 
-  Post.getPosts(page, heading, order, (err, modelData) => {
+  Post.getPosts(page, heading, order, category, (err, modelData) => {
     if (err)
       return res.json({success: false, message: 'Something went wrong! Please try again later'});
     
