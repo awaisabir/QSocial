@@ -32,40 +32,40 @@ export default (state=initialState, {type, payload}) => {
         fetched: false,
       }
     
-      case 'CREATE_POST_FULFILLED':
-        return {
-          ...state,
-          fetching: false,
-          fetched: true,
-          post: {...payload.data.post},
-          message: payload.data.message,
-          success: payload.data.success,
-        }
+    case 'CREATE_POST_FULFILLED':
+      return {
+        ...state,
+        fetching: false,
+        fetched: true,
+        post: {...payload.data.post},
+        message: payload.data.message,
+        success: payload.data.success,
+      }
 
-      case 'CREATE_POST_PENDING':
-        return {
-          ...state,
-          fetching: true,
-          fetched: false,
-          post: {}
-        }
-      
-      case 'CREATE_POST_REJECTED':
-        return {
-          ...state,
-          fetching: false,
-          errors: {...payload.data}
-        }
-      
-      case 'MODAL_CLOSED':
-        return {
-          ...initialState,
-        }
-      
-      case 'MODAL_OPENED':
-        return {
-          ...initialState,
-        }
+    case 'CREATE_POST_PENDING':
+      return {
+        ...state,
+        fetching: true,
+        fetched: false,
+        post: {}
+      }
+    
+    case 'CREATE_POST_REJECTED':
+      return {
+        ...state,
+        fetching: false,
+        errors: {...payload.data}
+      }
+    
+    case 'MODAL_CLOSED':
+      return {
+        ...initialState,
+      }
+    
+    case 'MODAL_OPENED':
+      return {
+        ...initialState,
+      }
     default:
       return state;
   }
