@@ -22,7 +22,7 @@ const PostSchema = new mongoose.Schema({
 
 export const Post = mongoose.model('Post', PostSchema);
 
-export const getPosts = (page, heading, order, category, callback) => {
+export const getPosts = (page, heading, order, categories, callback) => {
   let skip = 0;
   let query = {};
   let sort = {_id: -1};
@@ -34,17 +34,28 @@ export const getPosts = (page, heading, order, category, callback) => {
     query.heading = {$regex: RegExp(`${heading}`), $options: 'i'};
   }
 
-  if (category) {
-    query.categories = {$in : [category]};
+  if (categories) {
+    let tempArray = categories.split(',');
+    query.$and = [];
+    for (let category of tempArray) {
+      let structure = {
+        categories: {$in : [`${category}`]}
+      };
+
+      query.$and.push(structure);
+    }
   }
 
   if (order === 'asc') 
     sort = {_id: 1};
 
+  console.log(query.heading, query.$and);
+
   Post.count(query, (err, total) => {
     Post.find(query).sort(sort).skip(skip).limit(10).exec((err, posts) => {
-      if(err)
+      if(err) {
         callback(err, null);
+      }
       
       else {
         const results = {total, posts};
