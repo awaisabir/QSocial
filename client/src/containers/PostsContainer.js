@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Header, Container, Loader, Button } from 'semantic-ui-react';
+import { Header, Container, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getPosts } from '../actions/index';
+import { getPosts, headingSearched } from '../actions/index';
+import { parse } from 'query-string';
 
 import PostsList from '../components/posts/PostsList';
 import PostsPagination from '../components/posts/PostsPagination';
@@ -15,9 +16,9 @@ class PostsContainer extends Component {
     super(props);
     this.state = {
       page: 1,
-      searchTerm: '',
+      heading: '',
       order: 'desc',
-      headingSearched: false,
+      tags: [],
     };
     
     this.incrementPage = this.incrementPage.bind(this);
@@ -27,15 +28,31 @@ class PostsContainer extends Component {
   }
 
   componentDidMount() {
-    const { page, searchTerm, order } = this.state;
-    this.props.getPosts(page, searchTerm, order);
-  }
+    const { location, getPosts } = this.props;
 
+    if (Object.keys(parse(location.search)).length === 0) {
+      const { page, heading, order } = this.state;
+      getPosts(page, heading, order);
+    } else {
+      const { page, heading, order } = parse(location.search);
+      getPosts(page, heading, order);
+    }
+
+  }
+  
   componentDidUpdate(prevProps, prevState) {
-    const { page, searchTerm } = this.state;
-    
-    if (page !== prevState.page)
-      this.props.getPosts(page, searchTerm);
+    const { page, heading, order } = this.state;
+    const { getPosts, history } = this.props;
+
+    /**
+     *  check if headingSearched is true from Redux 
+     *  then set the page = to that instead of the page stored in component state
+     */
+
+    if (page !== prevState.page){
+      history.push(`/posts?heading=${heading}&page=${page}&order=${order}`);
+      getPosts(page, heading, order);
+    }
   }
 
   incrementPage(page) {  
@@ -50,18 +67,21 @@ class PostsContainer extends Component {
   }
 
   onFormSubmit() {
-    const { page, searchTerm, order } = this.state;
+    const { page, heading, order } = this.state;
+    const { history } = this.props;
 
-    this.props.getPosts(page, searchTerm, order);
+    history.push(`/posts?heading=${heading}&page=${page}&order=${order}`);
+    this.props.getPosts(page, heading, order);
+    // call heading searched action here and set to true
   }
 
-  onInput(searchTerm) {
-    this.setState({searchTerm: searchTerm});
+  onInput(heading) {
+    this.setState({heading});
   }
 
   render() {
     const { fetching, fetched, success, posts, history, totalPosts, isAuthed, userId } = this.props;
-    const { searchTerm } = this.state;
+    const { page } = this.state;
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
@@ -92,16 +112,15 @@ class PostsContainer extends Component {
           <div className="search-container">
             <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
           </div>
+
           <div className="search-container">
               {isAuthed ? <CreatePost userId={userId} history={history}/> : null}
           </div>
+          
           <PostsList posts={posts} history={history}/>
-          {searchTerm !== '' ? 
-            <Button icon="chevron left" content="All Posts" onClick={() => history.push('/')}/> : 
-            null
-          }
+
           <PostsPagination 
-            page={this.state.page}
+            page={page}
             max={max}
             increment={this.incrementPage} 
             decrement={this.decrementPage}  
@@ -119,6 +138,6 @@ class PostsContainer extends Component {
 }
 
 const mapStateToProps = ({postsReducer}) => postsReducer;
-const mapDispatchToProps = dispatch => bindActionCreators({getPosts}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({getPosts, headingSearched}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsContainer);

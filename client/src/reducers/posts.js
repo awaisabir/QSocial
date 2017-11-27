@@ -6,6 +6,7 @@ const initalState = {
   posts: [],
   count: 0,
   totalPosts: 0,
+  headingSearched: false,
   errors: {}
 };
 
@@ -40,7 +41,8 @@ export default (state=initalState, {type, payload}) => {
         posts: [],
         errors: {}
       }
-
+    case 'HEADING_SEARCHED':
+      return {...state, headingSearched: true}
     default:
       return state;
   }
