@@ -64,3 +64,10 @@ export const modalOpened = () => {
     paylaod: {},
   }
 }
+
+export const headingSearched = () => (
+  {
+    type: 'HEADING_SEARCHED',
+    payload: {}
+  }
+)
