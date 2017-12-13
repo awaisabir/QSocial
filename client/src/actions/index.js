@@ -65,9 +65,37 @@ export const modalOpened = () => {
   }
 }
 
-export const headingSearched = () => (
+export const onSearchInput = input => (
   {
-    type: 'HEADING_SEARCHED',
+    type: 'ONSEARCH_INPUT',
+    payload: {input}
+  }
+)
+
+export const incrementPage = page => (
+  {
+    type: 'PAGE_INCREMENTED',
+    payload: {page}
+  }
+)
+
+export const decrementPage = page => (
+  {
+    type: 'PAGE_DECREMENTED',
+    payload: {page}
+  }
+);
+
+export const setPage = page => (
+  {
+    type: 'SET_PAGE',
+    payload: {page}
+  }
+)
+
+export const resetPage = () => (
+  {
+    type: 'RESET_PAGE',
     payload: {}
   }
 )
