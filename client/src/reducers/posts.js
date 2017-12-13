@@ -6,7 +6,8 @@ const initalState = {
   posts: [],
   count: 0,
   totalPosts: 0,
-  headingSearched: false,
+  page: 1,
+  heading: '',
   errors: {}
 };
 
@@ -26,10 +27,7 @@ export default (state=initalState, {type, payload}) => {
       }
     
     case 'FETCH_POSTS_REJECTED':
-      return {
-        ...state,
-        errors: {...payload}
-      }
+      return {...state, errors: {...payload}}
 
     case 'FETCH_POSTS_PENDING':
       return {
@@ -41,8 +39,25 @@ export default (state=initalState, {type, payload}) => {
         posts: [],
         errors: {}
       }
-    case 'HEADING_SEARCHED':
-      return {...state, headingSearched: true}
+    
+    case 'ONSEARCH_INPUT':
+      return {...state, heading: payload.input}
+
+    case 'PAGE_INCREMENTED':
+      return {...state, page: state.page+1}
+      
+    case 'PAGE_DECREMENTED':
+      if (state.page === 1)
+        return {...state, page: 1}
+
+      return {...state, page: state.page-1}
+
+    case 'RESET_PAGE':
+      return {...state, page: 1}
+
+    case 'SET_PAGE':
+      return {...state, page: payload.page}
+      
     default:
       return state;
   }
