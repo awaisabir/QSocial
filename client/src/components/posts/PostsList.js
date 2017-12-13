@@ -11,6 +11,6 @@ export default ({ posts, history }) => (
         <PostItem key={post._id} post={post} history={history} />
       ))}
     </Item.Group>
-    <Button icon="chevron left" content="All Posts" onClick={() => history.push('/')}/>
+    <Button icon="chevron left" content="All Posts" onClick={() => history.push('/posts?heading=&page=1&order=desc')}/>
   </div>
 );
