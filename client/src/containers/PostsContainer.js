@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Header, Container, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getPosts, headingSearched } from '../actions/index';
+import { getPosts, incrementPage, decrementPage, onSearchInput, setPage } from '../actions/index';
 import { parse } from 'query-string';
 
 import PostsList from '../components/posts/PostsList';
@@ -15,73 +15,60 @@ class PostsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      heading: '',
-      order: 'desc',
       tags: [],
     };
     
-    this.incrementPage = this.incrementPage.bind(this);
-    this.decrementPage = this.decrementPage.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onInput = this.onInput.bind(this);
   }
 
   componentDidMount() {
-    const { location, getPosts } = this.props;
+    const query = parse(this.props.location.search);
 
-    if (Object.keys(parse(location.search)).length === 0) {
-      const { page, heading, order } = this.state;
-      getPosts(page, heading, order);
-    } else {
-      const { page, heading, order } = parse(location.search);
-      getPosts(page, heading, order);
+    const { getPosts } = this.props;
+
+    if ((!query.heading && query.page)) {
+      setPage(query.page);
+      this.onFormSubmit('');
     }
-
+    else if (query.heading && query.page) {
+      
+    }
+    else {
+      const { page, heading } = this.props;
+      getPosts(page, heading);
+    }
   }
   
   componentDidUpdate(prevProps, prevState) {
-    const { page, heading, order } = this.state;
-    const { getPosts, history } = this.props;
+    const { getPosts, history, page, heading, location } = this.props;
 
-    /**
-     *  check if headingSearched is true from Redux 
-     *  then set the page = to that instead of the page stored in component state
-     */
-
-    if (page !== prevState.page){
-      history.push(`/posts?heading=${heading}&page=${page}&order=${order}`);
-      getPosts(page, heading, order);
+    if (page !== prevProps.page){
+      history.push(`/posts?heading=${heading}&page=${page}&order=desc`);
+      getPosts(page, heading);
     }
   }
 
-  incrementPage(page) {  
-    this.setState({page: this.state.page+1});
-  }
-
-  decrementPage(page) {
-    if (page <= 1)
-      this.setState({page: 1});
-    else    
-      this.setState({page: this.state.page-1});
-  }
-
   onFormSubmit() {
-    const { page, heading, order } = this.state;
-    const { history } = this.props;
+    const { order } = this.state;
+    const { history, page, heading } = this.props;
 
-    history.push(`/posts?heading=${heading}&page=${page}&order=${order}`);
-    this.props.getPosts(page, heading, order);
-    // call heading searched action here and set to true
-  }
-
-  onInput(heading) {
-    this.setState({heading});
+    history.push(`/posts?heading=${heading}&page=${page}&order=desc`);
+    // this.props.setPage(1);
+    this.props.getPosts(page, heading);
   }
 
   render() {
-    const { fetching, fetched, success, posts, history, totalPosts, isAuthed, userId } = this.props;
-    const { page } = this.state;
+    const { 
+      fetching, 
+      fetched, 
+      success, 
+      posts, 
+      history, 
+      totalPosts, 
+      isAuthed, 
+      userId, 
+      page, 
+      onSearchInput } = this.props;
 
     if (fetching)
       return <Loader><span style={{color: '#0e51d6'}}>Loading Posts ... </span></Loader>;
@@ -100,7 +87,6 @@ class PostsContainer extends Component {
                 <Header as='h5'>Login/Register to create a post! <span role="img" aria-label="emoji3">😁</span></Header>
               </div>
             }
-            
           </Container>
         );
       }
@@ -110,7 +96,7 @@ class PostsContainer extends Component {
       return (
         <Container>
           <div className="search-container">
-            <Search onFormSubmit={this.onFormSubmit} onInput={this.onInput}/>
+            <Search onFormSubmit={this.onFormSubmit} onInput={onSearchInput}/>
           </div>
 
           <div className="search-container">
@@ -122,8 +108,8 @@ class PostsContainer extends Component {
           <PostsPagination 
             page={page}
             max={max}
-            increment={this.incrementPage} 
-            decrement={this.decrementPage}  
+            increment={this.props.incrementPage} 
+            decrement={this.props.decrementPage}  
           />
         </Container>
       );
@@ -138,6 +124,6 @@ class PostsContainer extends Component {
 }
 
 const mapStateToProps = ({postsReducer}) => postsReducer;
-const mapDispatchToProps = dispatch => bindActionCreators({getPosts, headingSearched}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({getPosts, incrementPage, decrementPage, onSearchInput, setPage}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsContainer);
