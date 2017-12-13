@@ -30,7 +30,7 @@ export default ({updateIsAuthed, user, isAuthed}) => (
       />
 
       <Route exact path="/" render={() => (
-          <Redirect to="/posts"/>
+          <Redirect to="/posts?heading=&page=1&order=desc"/>
       )}/>
     </Switch>
   </div>

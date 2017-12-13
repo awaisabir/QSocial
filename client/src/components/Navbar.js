@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 export default ({logout, isAuthed}) => {
   return (
     <Menu secondary>
-      <Menu.Item><NavLink to="/posts"><Menu.Item name='Posts'/></NavLink></Menu.Item>
+      <Menu.Item><NavLink to="/posts?heading=&page=1&order=desc"><Menu.Item name='Posts'/></NavLink></Menu.Item>
       <Menu.Menu position='right'>
         {!isAuthed ? 
           <Menu.Item><NavLink to="/register"><Menu.Item name='Register'/></NavLink></Menu.Item> : null
