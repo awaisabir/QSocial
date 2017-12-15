@@ -22,7 +22,7 @@ class PostsContainer extends Component {
   }
 
   componentDidMount() {
-    const { page, heading, location} = this.props;
+    const { location } = this.props;
     const query = parse(location.search);
 
     const { getPosts, setHeading, setPage } = this.props;
@@ -48,7 +48,6 @@ class PostsContainer extends Component {
   }
 
   onFormSubmit() {
-    const { order } = this.state;
     const { history, heading, setPage } = this.props;
 
     setPage(1);
