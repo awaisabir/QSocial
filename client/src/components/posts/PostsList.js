@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { Item, Button } from 'semantic-ui-react';
 
 import PostItem from './PostItem';
@@ -11,6 +12,6 @@ export default ({ posts, history }) => (
         <PostItem key={post._id} post={post} history={history} />
       ))}
     </Item.Group>
-    <Button icon="chevron left" content="All Posts" onClick={() => history.push('/posts?heading=&page=1&order=desc')}/>
+    <NavLink to="/" style={{backgroundColor : 'white'}}><Button icon="chevron left" content="All Posts" /></NavLink>
   </div>
 );

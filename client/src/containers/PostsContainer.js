@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Header, Container, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getPosts, incrementPage, decrementPage, onSearchInput, setPage } from '../actions/index';
+import { getPosts, incrementPage, decrementPage, onSearchInput, setPage, setHeading } from '../actions/index';
 import { parse } from 'query-string';
 
 import PostsList from '../components/posts/PostsList';
@@ -22,39 +22,38 @@ class PostsContainer extends Component {
   }
 
   componentDidMount() {
-    const query = parse(this.props.location.search);
+    const { page, heading, location} = this.props;
+    const query = parse(location.search);
 
-    const { getPosts } = this.props;
-
-    if ((!query.heading && query.page)) {
-      setPage(query.page);
-      this.onFormSubmit('');
-    }
-    else if (query.heading && query.page) {
-      
-    }
-    else {
-      const { page, heading } = this.props;
-      getPosts(page, heading);
+    const { getPosts, setHeading, setPage } = this.props;
+    if (query.heading !== "") {
+      setPage(parseInt(query.page));
+      setHeading(query.heading);
+      getPosts(parseInt(query.page), query.heading);
+    } else {
+      setPage(parseInt(query.page))
+      setHeading("");
+      getPosts(parseInt(query.page), "");
     }
   }
   
   componentDidUpdate(prevProps, prevState) {
-    const { getPosts, history, page, heading, location } = this.props;
+    const { getPosts, history, page, heading } = this.props;
 
     if (page !== prevProps.page){
       history.push(`/posts?heading=${heading}&page=${page}&order=desc`);
+      setPage(page);
       getPosts(page, heading);
     }
   }
 
   onFormSubmit() {
     const { order } = this.state;
-    const { history, page, heading } = this.props;
+    const { history, heading, setPage } = this.props;
 
-    history.push(`/posts?heading=${heading}&page=${page}&order=desc`);
-    // this.props.setPage(1);
-    this.props.getPosts(page, heading);
+    setPage(1);
+    history.push(`/posts?heading=${heading}&page=${1}&order=desc`);
+    this.props.getPosts(1, heading);
   }
 
   render() {
@@ -124,6 +123,6 @@ class PostsContainer extends Component {
 }
 
 const mapStateToProps = ({postsReducer}) => postsReducer;
-const mapDispatchToProps = dispatch => bindActionCreators({getPosts, incrementPage, decrementPage, onSearchInput, setPage}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({getPosts, incrementPage, decrementPage, onSearchInput, setPage, setHeading}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsContainer);

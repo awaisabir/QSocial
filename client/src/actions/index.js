@@ -99,3 +99,10 @@ export const resetPage = () => (
     payload: {}
   }
 )
+
+export const setHeading = heading => (
+  {
+    type: 'SET_HEADING',
+    payload: {heading}
+  }
+)

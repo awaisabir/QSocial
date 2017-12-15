@@ -58,6 +58,8 @@ export default (state=initalState, {type, payload}) => {
     case 'SET_PAGE':
       return {...state, page: payload.page}
       
+    case 'SET_HEADING':
+      return {...state, heading: payload.heading}
     default:
       return state;
   }
