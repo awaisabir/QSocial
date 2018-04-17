@@ -6,7 +6,7 @@ Tech being used are:
 
 - Express.js
 - Passport.js
-- Mongoose
+- SQLite (Sequelize)
 - JWT Authorization
 - Cloudinary API
 
@@ -22,17 +22,17 @@ Tech being used are:
 ## General
 
 - Need to create documentation on how to get app up and running!
-- Add pictures of app for a visual
 
 ### Backend
 
+- Need to update to SQL before anything!
 - Need to complete the Posts API.
+  - Get Like and dislikes working
 - Trying to create more endpoints for the API.
+- Add Support for the Cloudinary API for picture uploads.
 
 ### Frontend
 
-- Need to set up a proper Container that checks token validity before rendering routes.
 - Need to add more complexity to the Profile Page.
-- Need to set up a Posts page.
 
 Created & Maintained by [@awaisabir](https://github.com/awaisabir)

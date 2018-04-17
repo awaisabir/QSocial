@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import passport from 'passport';
@@ -27,18 +26,6 @@ require('./config/passport')(passport);
 app.use('/api/auth', auth);
 app.use('/api/users', users);
 app.use('/api/posts', posts);
-
-/** Mongoose */
-mongoose.connect(DBConfig.address);
-
-mongoose.connection.on('error', () => {
-    console.log('Something went wrong with the db ...');
-});
-
-mongoose.connection.on('connected', () => {
-    console.log('You are now connected to the db!');
-});
-
 
 app.get('*', (req, res) => {
     res.send('404');

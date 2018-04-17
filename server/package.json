@@ -28,8 +28,9 @@
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "jsonwebtoken": "^8.0.1",
-    "mongoose": "^4.11.11",
     "passport": "^0.4.0",
-    "passport-jwt": "^3.0.0"
+    "passport-jwt": "^3.0.0",
+    "sequelize": "^4.37.6",
+    "sqlite3": "^4.0.0"
   }
 }
