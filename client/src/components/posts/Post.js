@@ -34,7 +34,7 @@ class Post extends Component {
           </div>
           <p>by {post.username}</p>
           <div style={{border: '1px solid black', borderRadius: '3px', padding: '10px', marginBottom: '10px'}}>
-            <p>{post.content}</p>
+            <p style={{overflowWrap: 'break-word'}}>{post.content}</p>
           </div>
           <Button onClick={() => history.goBack()}>
           <Icon name='chevron left' /> Go Back

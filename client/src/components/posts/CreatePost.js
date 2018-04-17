@@ -71,7 +71,7 @@ class MyModal extends Component {
               ))}
             </div>
 
-            <p style={{marginTop: '15px'}}>{content}</p>
+            <p style={{marginTop: '15px', overflowWrap: 'break-word'}}>{content}</p>
 
             <Form>
               <div style={{marginBottom: '5px'}}>
