@@ -17,6 +17,7 @@ const PostSchema = new mongoose.Schema({
     content: {type: String, required: true},
     heading: {type: String, required: true},
     thumbnail: String,
+    liked: [{type: ObjectId, ref: 'User'}],
     comments: [{type: ObjectId, ref: 'Comment'}]
 });
 
@@ -49,8 +50,6 @@ export const getPosts = (page, heading, order, categories, callback) => {
   if (order === 'asc') 
     sort = {_id: 1};
 
-  console.log(query.heading, query.$and);
-
   Post.count(query, (err, total) => {
     Post.find(query).sort(sort).skip(skip).limit(10).exec((err, posts) => {
       if(err) {
@@ -80,11 +79,21 @@ export const deletePost = (id, callback) => {
 export const updatePost = (id, updates, callback) => {
   let query = {};
   query.$set = {};
-  let { heading, content, category } = updates;
+
+  let { heading, content, category, liked, userId } = updates;
 
   if (heading !== undefined) query.$set.heading = heading;
   if (content !== undefined) query.$set.content = content;
   if (category !== undefined) query.$set.category = category;
+  if (liked) {
+    query.$push = {};
+    query.$push.liked = userId;
+
+    query.$inc = {};
+    query.$inc.likes = 1;
+  }
+  
+
   query.$set.edited = true;
   query.$set.editedAt = Date.now();
 

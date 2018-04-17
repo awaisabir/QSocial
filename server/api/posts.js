@@ -61,10 +61,11 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
 // update a post
 router.patch('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
-  let { id } = req.params; 
-  let { category, content, heading } = req.body;
+  let { id } = req.params;
+  const userId = req.user._id;
+  let { category, content, heading, liked } = req.body;
 
-  Post.updatePost(id, {category, content, heading}, (err, post) => {
+  Post.updatePost(id, {category, content, heading, liked, userId}, (err, post) => {
     if (err)
       return res.json({success: false, message: 'Something went wrong! Please try again later ...'});
       
@@ -89,5 +90,14 @@ router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res)
     return res.json({success: true, message: 'Post has been deleted!', post});
   });
 });
+
+// like a post
+router.post('/:id/like', passport.authenticate('jwt', {session: false}), (req, res) => {
+  const { id } = req.params;
+
+  
+});
+
+// dislike a post
 
 export default router;
