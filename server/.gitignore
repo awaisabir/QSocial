@@ -1,2 +1,4 @@
 node_modules/
 config/secret.js
+db/QSocial.db
+sb/SETUP.sql
