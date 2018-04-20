@@ -1,10 +1,10 @@
 {
-  "name": "blog-server",
+  "name": "qsocial",
   "version": "1.0.0",
   "description": "Backend for my blog",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "start": "babel-node server.js",
+    "start": "babel-node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

@@ -3,45 +3,37 @@ import path from 'path';
 import Sequelize from 'sequelize';
 import dbConfig from '../config/db';
 
-let db = {};
+const db = {};
+
 /** Sequelize setup */
-class DBInterface {
-  constructor() {
-    if (!DBInterface.instace) {
-      this.sequelize = new Sequelize(dbConfig.DB_NAME, dbConfig.USERNAME, dbConfig.PASSWORD, {
-        dialect: 'sqlite',
-        storage: `${__dirname}/QSocial.db`
-      });
-    }
+const sequelize = new Sequelize(dbConfig.DB_NAME, dbConfig.USERNAME, dbConfig.PASSWORD, {
+  dialect: 'sqlite',
+  storage: `${__dirname}/${dbConfig.DB_NAME}.db`
+});
 
-    DBInterface.instace = this;
-  }
+// import models here
+fs.readdirSync(`${__dirname}/models`)
+.filter(file => file.indexOf('.') !== 0) && (file.slice(-3) === '.js')
+.forEach(file => {
+  const model = sequelize['import'](path.join(__dirname, file));
+  db[model.name] = model;
+});
 
-  async authenticate() {
-    try {
-      let result = await this.sequelize.authenticate();
-      console.log(`Connection has successfully been established`);
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate)
+    db[modelName].associate(db);
+});
 
-    } catch (err) { console.log(`Unable to make connection`, err); }
-  }
+(async () => {
+  try {
+    let result = await sequelize.authenticate();
+    console.log(`Connection has successfully been established`);
 
-  initialize() {
-    fs.readdirSync(`${__dirname}/models`)
-    .filter(file => file.indexOf('.') !== 0) && (file.slice(-3) === '.js')
-    .forEach(file => {
-      let model = this.sequelize['import'](path.join(__dirname, file));
-      db[model.name] = model;
-    });
+  } catch (err) { throw(`Unable to make connection`, err); }
+})();
 
-    Object.keys(db).forEach(modelName => {
-      if (db[modelName].associate)
-        db[modelName].associate(db);
-    });
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-    db.sequelize = sequelize;
-    db.Sequelize = Sequelize;
-  }
-}
-
-export const db;
+module.exports = db;
 
