@@ -3,11 +3,14 @@ import path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import passport from 'passport';
-import DBConfig from './config/db';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 import auth from './api/auth';
 import users from './api/users';
 import posts from './api/posts';
+
 
 const PORT = process.env.PORT || 4200;
 const app = express();
