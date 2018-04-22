@@ -1,10 +1,9 @@
 import Sequelize from 'sequelize';
-import dbConfig from '../config/db';
 
 /** Sequelize setup */
-const sequelize = new Sequelize(dbConfig.DB_NAME, dbConfig.USERNAME, dbConfig.PASSWORD, {
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, {
   dialect: 'sqlite',
-  storage: `${__dirname}/${dbConfig.DB_NAME}.db`,
+  storage: `${__dirname}/${process.env.DB_NAME}.db`,
   define: {underscored : true}
 });
 
