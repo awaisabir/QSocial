@@ -1,21 +1,17 @@
 // User Model
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    user_id: {
-      type: DataTypes.INTEGER,
-      unique: true,
-    },
     username: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         unique: true,
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         unique: true,
     },
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    password: DataTypes.STRING,
+    firstName: DataTypes.TEXT,
+    lastName: DataTypes.TEXT,
+    password: DataTypes.TEXT,
     isAdmin: {
       type: DataTypes.BOOLEAN,
       default: false,
@@ -24,13 +20,13 @@ export default (sequelize, DataTypes) => {
       type:  DataTypes.DATE,
       default: Date.now(),
     },
-    image: DataTypes.STRING,
+    image: DataTypes.TEXT,
 
   });
 
-  User.associate = (models) => {
+  User.associate = models => {
     // a User has many posts
-    User.hasMany(models.Post, {
+    models.User.hasMany(models.Post, {
       foreignKey: {
         user_id: 'user_id',
         field: 'user_id',
