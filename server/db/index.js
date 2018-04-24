@@ -4,12 +4,13 @@ import Sequelize from 'sequelize';
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, {
   dialect: 'sqlite',
   storage: `${__dirname}/${process.env.DB_NAME}.db`,
-  define: {underscored : true}
 });
 
 const models = {
   User: sequelize.import('./models/User'),
   Post: sequelize.import('./models/Post'),
+  Category: sequelize.import('./models/Category'),
+  Comment: sequelize.import('./models/Comment'),
 };
 
 

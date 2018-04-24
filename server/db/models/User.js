@@ -1,4 +1,4 @@
-// User Model
+// User Schema
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: {
@@ -9,9 +9,6 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         unique: true,
     },
-    firstName: DataTypes.TEXT,
-    lastName: DataTypes.TEXT,
-    password: DataTypes.TEXT,
     isAdmin: {
       type: DataTypes.BOOLEAN,
       default: false,
@@ -20,17 +17,22 @@ export default (sequelize, DataTypes) => {
       type:  DataTypes.DATE,
       default: Date.now(),
     },
+    firstName: DataTypes.TEXT,
+    lastName: DataTypes.TEXT,
+    password: DataTypes.TEXT,
     image: DataTypes.TEXT,
-
   });
 
   User.associate = models => {
-    // a User has many posts
-    models.User.hasMany(models.Post, {
-      foreignKey: {
-        user_id: 'user_id',
-        field: 'user_id',
-      }
+    models.User.hasMany(models.Post);
+    models.User.hasMany(models.Comment);
+
+    models.User.belongsToMany(models.Post, {
+      through: 'Likes'
+    });
+
+    models.User.belongsToMany(models.Post, {
+      through: 'Dislikes'
     });
   };
 

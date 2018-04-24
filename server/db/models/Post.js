@@ -20,5 +20,10 @@ export default (sequelize, DataTypes) => {
     },
   });
 
+  Post.associate = models => {
+    models.Post.belongsToMany(models.Category, {through: 'PostCategory'});
+    models.Post.hasMany(models.Comment);
+  };
+
   return Post;
 };
