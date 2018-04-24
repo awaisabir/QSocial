@@ -13,15 +13,34 @@ Tech being used are:
 - React.js
 - React Router
 - Redux
-- SematicUI
+- SemanticUI
 
 --------
 
+## Setup
+Please ensure you have stable versions of `node`, `sqlite` and `yarn`/`npm` installed
+
+To get set up:
+
+- Insert your environment variables in `.env.example` and rename the file to `.env`.
+
+- Ensure that you have `PRAGMA Foreign_keys=ON;` in your `~/.sqliterc` file, or else there will be no foreign key support for sqlite.
+
+Once you are setup, do the following:
+
+```[bash]
+# server
+cd/server
+yarn install && yarn start
+```
+
+```[bash]
+# frontend
+cd/client
+yarn install && yarn start
+```
+
 ## Current Status :nut_and_bolt: :zap: :hammer:
-
-## General
-
-- Need to create documentation on how to get app up and running!
 
 ### Backend
 
@@ -29,7 +48,7 @@ Tech being used are:
 - Need to complete the Posts API.
   - Get Like and dislikes working
 - Trying to create more endpoints for the API.
-- Add Support for the Cloudinary API for picture uploads.
+- Add Cloudinary API Support for picture uploads.
 
 ### Frontend
 
