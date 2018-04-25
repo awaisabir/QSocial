@@ -1,6 +1,5 @@
 // Authentication setup
 import express from 'express';
-import Sequelize from 'sequelize';
 import jwt from 'jsonwebtoken';
 
 const { User } = require('../db/index').default;
