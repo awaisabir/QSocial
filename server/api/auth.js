@@ -1,83 +1,60 @@
 // Authentication setup
 import express from 'express';
+import Sequelize from 'sequelize';
 import jwt from 'jsonwebtoken';
-import config from '../config/db';
-import * as User from '../models/User';
+
+const { User } = require('../db/index').default;
 const router = express.Router();
 
 /** Register Endpoint */
-router.post('/register', (req, res) => {
-  let {username, password, email, firstName, lastName} = req.body;
+router.post('/register', async (req, res) => {
+  const { username, password, email, firstName, lastName } = req.body;
+  
+  try {
+    const user = await User.getUserByUsername(username);
 
-  let newUser = new User.User({
-    username, password, email, firstName, lastName
-  });
+    if (user.length !== 0)
+      return res.json({succes: false, message: 'A user with that username/email already exists'});
 
-  User.getUserByUsername(newUser.username, (err, user) => {
-    if (err)
-      return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'});
-      
-      if (user)
-        return res.json({success: false, message: 'A user with that username/email already exists'});
-      
-      else {
-        User.saveUser(newUser, (err, user) => {
-          if (err)
-          return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'});
-          
-          else
-            return res.json({success: true, message: 'Successfully registered! You may now login ...'});
-      });
-    }
-  });
+    let newUser = User.build({
+      username, password, email, firstName, lastName, image: null
+    });
+
+    const result = await User.saveUser(newUser);
+    return res.json({success: true, message: 'Successfully registered! You may now login ...'});
+    
+  } catch (error) { 
+    return res.json({succes: false, message: 'Something went wrong at our end. Please try again later ...'}); 
+  }
 });
 
-/** Login Endpoint */
-router.post('/login', (req, res) => {
-  let {username, password} = req.body;
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
 
-  User.getUserByUsername(username, (err, user) => {
+  try {
+    let user = await User.getUserByUsername(username);
     
-    if (err)
+    if (user.length === 0)
       return res.json({success: false, message: 'Incorrect username/password'});
     
-    if (!user) 
-      return res.json({success: false, message: 'Incorrect username/password'});
+    user = user[0];
+    const isMatch = await User.comparePasswords(password, user.password);
     
-    else {
-      User.comparePasswords(password, user.password, (err, isMatch) => {
-        
-        if (err)
-        return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'});
-          
-          if (isMatch) {
-            let { firstName, lastName, username, id, email, createdAt } = user;
-            const token = jwt.sign({id, firstName, lastName, username, email, createdAt}, config.auth_secret, {expiresIn: '365d'});
-            
-            res.json({
-              success: true,
-              token: 'Bearer '+token,
-              user : {
-                id: user._id,
-              }
-            });
-          } else {
-            return res.json({success: false, message: 'Incorrect username/password'});
-        }
+    if (isMatch) {
+      const { id, username, email, isAdmin, firstName, lastName, createdAt } = user;
+      const token = jwt.sign({
+        id, username, email, isAdmin, firstName, lastName, createdAt
+      }, process.env.SECRET, {expiresIn: '365d'});
+      
+      return res.json({
+        success: true,
+        token: `Bearer ${token}`,
+        user: { id: user.id }
       });
-    }
-  });
+    };
+  } catch (error) {
+    return res.json({success: false, message: 'Something went wrong at our end. Please try again later ...'});
+  }
 });
 
-router.get('/authorize', (req, res) => {
-  let authToken = req.headers.authorization.substring(7);
-
-  jwt.verify(authToken, config.auth_secret, (err, result) => {
-    if (err)
-      return res.json({success: false, message: err});
-
-      return res.json({succes: true, message: null});
-  });
-});
-
-export default router;
+module.exports = router;

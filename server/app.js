@@ -8,11 +8,10 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 
+/** import routes */
+
 if (!result.error) {
-  /** import routes */
-  // import auth from './api/auth';
-  // import users from './api/users';
-  // import posts from './api/posts';
+  const auth = require('./api/auth');
 
   const PORT = process.env.PORT || 4200;
   const app = express();
@@ -24,21 +23,19 @@ if (!result.error) {
   app.use(bodyParser.json());
   
   /** Passport Config */
-  // app.use(passport.initialize());
-  // app.use(passport.session());
-  // require('./config/passport')(passport);
+  app.use(passport.initialize());
+  app.use(passport.session());
+  require('./config/passport')(passport);
   
   /** use routes */
-  // app.use('/api/auth', auth);
-  // app.use('/api/users', users);
-  // app.use('/api/posts', posts);
+  app.use('/api/auth', auth);
   
   app.get('*', (req, res) => {
     res.send('404');
   });
   
   const models = require('./db/index');
-  models.default.sequelize.sync({force: true}).then(() => {
+  models.default.sequelize.sync({force: false}).then(() => {
     app.listen(PORT, () => console.log(`App listening on ${PORT}`));
   });
 } else
