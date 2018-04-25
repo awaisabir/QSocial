@@ -11,11 +11,12 @@ module.exports = passport => {
   opts.secretOrKey = process.env.SECRET;
   passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
-      const user = User.getUserById(jwt_payload.id);
+      let user = await User.getUserById(jwt_payload.id);
       
       if (user.length === 0)
         return done(null, false);
 
+      user = user[0];
       const { id, username, firstName, lastName } = user;
       return done(null, {id, username, firstName, lastName});
       
