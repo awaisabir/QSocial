@@ -1,4 +1,3 @@
-// Authentication setup
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -16,7 +15,7 @@ router.post('/register', async (req, res) => {
       return res.json({succes: false, message: 'A user with that username/email already exists'});
 
     let newUser = User.build({
-      username, password, email, firstName, lastName, image: null
+      username, password, email, firstName, lastName, image: ''
     });
 
     const result = await User.saveUser(newUser);
@@ -27,6 +26,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
+/** Login Endpoint */
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 

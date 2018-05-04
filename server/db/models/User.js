@@ -41,7 +41,7 @@ export default (sequelize, DataTypes) => {
   User.getUserById = id => {
     return new Promise(async (resolve, reject) => {
       try {
-        const user = User.findAll({
+        const user = await User.findAll({
           where: {id}
         });
 

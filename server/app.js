@@ -12,6 +12,7 @@ import passport from 'passport';
 
 if (!result.error) {
   const auth = require('./api/auth');
+  const posts = require('./api/posts');
 
   const PORT = process.env.PORT || 4200;
   const app = express();
@@ -29,6 +30,7 @@ if (!result.error) {
   
   /** use routes */
   app.use('/api/auth', auth);
+  app.use('/api/posts', posts);
   
   app.get('*', (req, res) => {
     res.send('404');
@@ -39,4 +41,4 @@ if (!result.error) {
     app.listen(PORT, () => console.log(`App listening on ${PORT}`));
   });
 } else
-  throw error(`Could not load environment properties`);
+  throw error(`Could not load environment variables`);

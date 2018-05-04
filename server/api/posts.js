@@ -1,62 +1,71 @@
 import express from 'express';
 import passport from 'passport';
-import * as Post from '../models/Post';
+
+const { Post, Category } = require('../db/index').default;
 const router = express.Router();
 
 // get posts
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   let { page, heading, order, categories } = req.query;
 
   if (!page)
     page = 1;
 
-  Post.getPosts(page, heading, order, categories, (err, modelData) => {
-    if (err)
-      return res.json({success: false, message: 'Something went wrong! Please try again later'});
-    
-    if (!modelData)
-      return res.json({success: false, message: 'There are no posts! ...'});
+  try {
+    const posts = await Post.getPosts(page, heading, order, categories);
 
-    else {
-      const count = modelData.posts.length;
-      const totalPosts = modelData.total;
-      const posts = modelData.posts;
-      const response = {success: true, count, posts, totalPosts};
-      return res.json(response);
-    }
-  });
+    if (posts.length === 0)
+      return res.json({success: true, message: 'There are no posts under the specified criteria'});
+
+    return res.json({success: true, posts});
+  } catch (error) { return res.json({success: false, message: 'Something went wrong at our end! ...'}); }
 });
 
 // get post by id
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
-  Post.getPostById(id, (err, post) => {
-    if (err)
-      return res.json({success: false, message: 'Something went wrong! Plese try again later ...'});
+  try {
+    const postArray = await Post.getPostById(id);
+    if (postArray.length === 0)
+      return res.json({success: true, message: 'There are no posts under the specified criteria'});
 
-    if (!post)
-      return res.json({success: false, message: 'No Post(s) Found'});
-
+    const post = postArray[0];
     return res.json({success: true, post});
-  });
+
+  } catch (error) { 
+    console.log(error);  
+    return res.json({success: false, message: 'Something went wrong at our end! ...'}); 
+  }
 });
 
 // create a new post
-router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
-  const { username } = req.user;
-  const { user_id, categories, content, heading } = req.body;
+router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  const { id, username } = req.user;
+  const { user_id, content, heading } = req.body;
+  let { categories } = req.body;
 
-  const newPost = new Post.Post({user_id, username, categories, content, heading});
-  Post.createPost(newPost, (err, post) => {
-    if (err)
-      return res.json({success: false, message: 'There was an error on our part! Please try again later ...'});
-      
-    if (!post)
-      return res.json({success: false, message: 'There was an error on our part! Please try again later ...'});
+  try {
+    let c = [];
+    categories.split(',').map(category => c.push({category}));
 
-    return res.json({success: true, message: 'Post successfully created!', post});
-  });
+    // for each category check if they already exist <-- bug I need to fix
+
+    // build the post
+    const post = Post.build({
+      content, 
+      heading,
+      UserId: id,
+      Categories: c,
+    }, { include : [ Category ] });
+
+    const result = await Post.savePost(post);
+
+    return res.json({success: true, message: 'Post was successfully created!'});
+  } catch (error) { 
+    return res.json({success: false, message: 'Something went wrong on our end!'});
+   }
+
 });
 
 // update a post
@@ -65,30 +74,14 @@ router.patch('/:id', passport.authenticate('jwt', {session: false}), (req, res) 
   const userId = req.user._id;
   let { category, content, heading, liked } = req.body;
 
-  Post.updatePost(id, {category, content, heading, liked, userId}, (err, post) => {
-    if (err)
-      return res.json({success: false, message: 'Something went wrong! Please try again later ...'});
-      
-    if (!post)
-      return res.json({success: false, message: 'Something went wrong! Please try again later ...'});
-
-    return res.json({success: true, post});
-  });
+  
 });
 
 // delete a post
 router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
   const { id } = req.params;
 
-  Post.deletePost(id, (err, post) => {
-    if (err)
-      return res.json({success: false, message: 'Something went wrong! Please try again ...'});
-      
-    if (!post) 
-      return res.json({success: false, message: 'Something went wrong! Please try again ...'});
-
-    return res.json({success: true, message: 'Post has been deleted!', post});
-  });
+  
 });
 
 // like a post
@@ -99,5 +92,10 @@ router.post('/:id/like', passport.authenticate('jwt', {session: false}), (req, r
 });
 
 // dislike a post
+router.post('/:id/dislike', passport.authenticate('jwt', {session: false}), (req, res) => {
+  const { id } = req.params;
 
-export default router;
+  
+});
+
+module.exports = router;
