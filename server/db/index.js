@@ -4,6 +4,7 @@ import Sequelize from 'sequelize';
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, {
   dialect: 'sqlite',
   storage: `${__dirname}/${process.env.DB_NAME}.db`,
+  logging: false,
 });
 
 const models = {
