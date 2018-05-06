@@ -20,14 +20,6 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: Date.now()
     },
-    editedAt: {
-      type: DataTypes.DATE,
-      defaultValue: Date.now()
-    },
-    edited: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
   });
 
   Post.associate = models => {
@@ -60,16 +52,17 @@ export default (sequelize, DataTypes) => {
       });
     };
   
-    Post.deletePost = post => {
+    Post.deletePost = id => {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await post.destroy();
+
+          const res = await Post.destroy({where: {id}});
           resolve(res);
         } catch (error) { reject(error); }
       });
     };
   
-    Post.getPosts = (page, heading, order, categories) => {
+    Post.getPosts = (page, heading, order) => {
       return new Promise(async (resolve, reject) => {
         try {
           let skip = 0;
@@ -79,19 +72,17 @@ export default (sequelize, DataTypes) => {
             skip = (page * 10) - 10;
   
           if (heading) {
-            query.where = {heading};
+            query.where = {heading: {like: `%${heading}%`}};
             query.offset = skip;
             query.limit = 10;
-            query.order = order;
+            query.order = sequelize.literal(`createdAt ${order}`);
             query.include = [{
               model: models.Category,
-              where: { PostId: sequelize.col('Post.id') }
             }];
           }
-  
-          // if (categories) {
-          // }
-  
+
+          // deal with categories later
+          
           const res = await Post.findAll(query);
           resolve(res);
         } catch (error) { reject(error); }
